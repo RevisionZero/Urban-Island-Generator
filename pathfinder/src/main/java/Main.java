@@ -1,5 +1,6 @@
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.Edge;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.UnweightedEdge;
+import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.AbstractGraph;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.Graph;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.graphs.UndirectedGraph;
 
@@ -7,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Main {
-
 
     public static void main(String[] args) {
 
@@ -23,6 +23,10 @@ public class Main {
         edges.add(new UnweightedEdge<>(4,5));
         edges.add(new UnweightedEdge<>(0,4));
 
+        Edge<Integer> a = new UnweightedEdge<>(9,8);
+
+        System.out.println(a.containsNode(9));
+
         nodes.add(1);
         nodes.add(0);
         nodes.add(7);
@@ -31,9 +35,9 @@ public class Main {
         nodes.add(5);
         nodes.add(2);
 
-        g = new UndirectedGraph<Integer>(nodes, edges);
+        g = new UndirectedGraph<>(nodes, edges);
 
-        g.getEdges().forEach((key, value) -> {
+        g.getGraph().forEach((key, value) -> {
             System.out.print(key.toString()+": ");
 
             value.forEach(edge -> {

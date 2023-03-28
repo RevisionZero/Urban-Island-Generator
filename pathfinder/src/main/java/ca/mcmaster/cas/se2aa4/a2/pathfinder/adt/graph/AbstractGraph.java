@@ -7,12 +7,10 @@ import java.util.*;
 import java.util.function.BiConsumer;
 
 public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
+    //An abstract graph class to define a graph of any type T, such as a graph of vertices, using an adjacency list.
 
-    //A map of the graph's edges as follows: node(key) -> edges with that node(value), this is an adjacency
-    //list representation of the graph
     protected Map<T, Set< Edge<T> > > edges;
 
-    //Graph constructor using nodes
     public AbstractGraph (Set<T> nodes){
         this.edges = new HashMap<>();
 
@@ -21,7 +19,6 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
         });
     }
 
-    //Graph constructor using set of nodes and a set of edges
     public AbstractGraph(Set<T> nodes, Set< Edge<T> > edges){
         this.edges = new HashMap<>();
 
@@ -29,12 +26,20 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
             this.edges.put(node, new HashSet<>());
         });
 
-        //Adding each edge to the appropriate index, so that one of the edge's nodes is the key
         edges.forEach(edge -> {
-            T key = edge.getNode1();;
-            Set< Edge<T> > edgeList = this.edges.get(key);
+            T node1 = edge.getNode1();
+            T node2 = edge.getNode2();
+
+            if(!this.edges.containsKey(node1)){
+                this.edges.put(node1, new HashSet<>());
+            }
+            else if(!this.edges.containsKey(node2)){
+                this.edges.put(node2, new HashSet<>());
+            }
+
+            Set< Edge<T> > edgeList = this.edges.get(node1);
             edgeList.add(edge);
-            this.edges.put(key, edgeList);
+            this.edges.put(node1, edgeList);
         });
     }
 
@@ -52,7 +57,7 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
     }
 
     @Override
-    public Map<T, Set< Edge<T> > > getEdges(){
+    public Map<T, Set< Edge<T> > > getGraph(){
         return this.edges;
     }
 
