@@ -7,16 +7,12 @@ import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.Graph;
 import java.util.*;
 
 public class UndirectedGraph<T> extends AbstractGraph<T> {
-    public UndirectedGraph(List<T> nodes) {
+    public UndirectedGraph(Set<T> nodes) {
         super(nodes);
     }
 
-    public UndirectedGraph(HashMap<T, Set<Edge<T>> > edges){
-        super(edges);
-    }
-
-    public UndirectedGraph() {
-        super();
+    public UndirectedGraph(Set<T> nodes, Set< Edge<T> > edges){
+        super(nodes, edges);
     }
 
     @Override
