@@ -20,4 +20,8 @@ public interface Edge<T> {
      * @return The second node of the edge.
      */
     T getNode2();
+
+    boolean isWeighted();
+
+    double getWeight() throws IllegalArgumentException;
 }

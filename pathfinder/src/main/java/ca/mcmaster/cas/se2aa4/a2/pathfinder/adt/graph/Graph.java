@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.Edge;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public interface Graph<T> {
@@ -35,6 +36,8 @@ public interface Graph<T> {
      *
      * @return Returns the {@link Map} describing the graph's adjacency list.
      */
-    Map<T, Set< Edge<T> > > getGraph();
+    Set< Edge<T> > getEdges();
+
+    Set<T> getNodes();
 
 }
