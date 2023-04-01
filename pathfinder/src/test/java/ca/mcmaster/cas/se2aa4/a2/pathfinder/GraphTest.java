@@ -70,7 +70,6 @@ public class GraphTest {
         edges.add(new UndirectedEdge<>(2,3));
         edges.add(new UndirectedEdge<>(3,4));
         edges.add(new UndirectedEdge<>(4,1));
-        edges.add(new )
 
         undirected.removeNode(0);
         directed.removeNode(0);
@@ -89,9 +88,6 @@ public class GraphTest {
 
         assertEquals(directed.getNodes(),nodes);
         assertEquals(directed.getEdges(),edges);
-
-        undirected.removeNode(null);
-        directed.removeNode(null);
 
     }
 }

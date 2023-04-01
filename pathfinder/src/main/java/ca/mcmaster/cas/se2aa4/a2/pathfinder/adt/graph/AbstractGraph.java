@@ -9,6 +9,10 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
     protected Map<T, Set< Edge<T> > > adjacencyList;
 
+    /**
+     *
+     * @param nodes The {@link T} to construct the graph from using an adjacency list.
+     */
     public AbstractGraph (Set<T> nodes){
         this.adjacencyList = new HashMap<>();
 

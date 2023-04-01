@@ -34,10 +34,14 @@ public interface Graph<T> {
 
     /**
      *
-     * @return Returns the {@link Map} describing the graph's adjacency list.
+     * @return The {@link Set} of {@link Edge} describing the graph's adjacency list.
      */
     Set< Edge<T> > getEdges();
 
+    /**
+     *
+     * @return The {@link Set} of {@link T} of the graph's nodes.
+     */
     Set<T> getNodes();
 
 }
