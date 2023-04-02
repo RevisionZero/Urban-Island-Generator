@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.pathfinder;
 
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.Edge;
+import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.DirectedEdge;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.UndirectedEdge;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.Graph;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.graphs.DirectedGraph;
@@ -18,76 +19,110 @@ import java.util.Set;
 public class GraphTest {
 
     private Graph<Integer> undirected;
-    private Graph<Integer> directed;
 
     private Set< Edge<Integer> > undirectedEdges;
-    private Set< Edge<Integer> > directedEdges;
+    private Set< Edge<Integer> > undirectedEdgesWithoutNull;
 
     private Set<Integer> nodes;
-    //Can we use stuff were going to use in beforeeach
-    //Do we need to account for user putting in null values or just let it throw eexception
-    //Relateed to the first point, I also use getEdge and node in the test
+    private Set<Integer> nodesWithoutNull;
 
+
+    private final Integer zero = 0;
+    private final Integer one = 1;
+    private final Integer two = 2;
+    private final Integer three = 3;
+    private final Integer four = 4;
+
+    private final Edge<Integer> e = new UndirectedEdge<>(4,1);
+    private final Edge<Integer> d = new UndirectedEdge<>(3,4);
+    private final Edge<Integer> c = new UndirectedEdge<>(2,3);
+    private final Edge<Integer> b = new UndirectedEdge<>(1,2);
+    private final Edge<Integer> a = new UndirectedEdge<>(0,1);
 
     @BeforeEach
     public void beforetest(){
         nodes = new HashSet<>();
-        nodes.add(0);
-        nodes.add(1);
-        nodes.add(2);
-        nodes.add(3);
-        nodes.add(4);
+        nodesWithoutNull = new HashSet<>();
+        nodes.add(zero); nodesWithoutNull.add(zero);
+        nodes.add(one); nodesWithoutNull.add(one);
+        nodes.add(two); nodesWithoutNull.add(two);
+        nodes.add(three); nodesWithoutNull.add(three);
+        nodes.add(four); nodesWithoutNull.add(four);
         nodes.add(null);
 
         undirectedEdges = new HashSet<>();
-
-        undirectedEdges.add(new UndirectedEdge<>(0,1));
-        undirectedEdges.add(new UndirectedEdge<>(1,2));
-        undirectedEdges.add(new UndirectedEdge<>(2,3));
-        undirectedEdges.add(new UndirectedEdge<>(3,4));
-        undirectedEdges.add(new UndirectedEdge<>(4,1));
-
-        directedEdges.add(new UndirectedEdge<>(0,1));
-        directedEdges.add(new UndirectedEdge<>(1,2));
-        directedEdges.add(new UndirectedEdge<>(2,3));
-        directedEdges.add(new UndirectedEdge<>(3,4));
-        directedEdges.add(new UndirectedEdge<>(4,1));
+        undirectedEdgesWithoutNull = new HashSet<>();
+        undirectedEdges.add(a); undirectedEdgesWithoutNull.add(a);
+        undirectedEdges.add(b); undirectedEdgesWithoutNull.add(b);
+        undirectedEdges.add(c); undirectedEdgesWithoutNull.add(c);
+        undirectedEdges.add(d); undirectedEdgesWithoutNull.add(d);
+        undirectedEdges.add(e); undirectedEdgesWithoutNull.add(e);
+        undirectedEdges.add(null);
 
         undirected = new UndirectedGraph<>(nodes, undirectedEdges);
-        directed = new DirectedGraph<>(nodes, directedEdges);
     }
 
     @Test
-    public void removeNodeTest(){
-        Set<Integer> nodes = new HashSet<>();
+    public void getTest(){
+        /*Set<Integer> nodes = new HashSet<>();
+        nodes.add(0);
         nodes.add(1);
         nodes.add(2);
         nodes.add(3);
         nodes.add(4);
 
         Set<Edge<Integer>> edges = new HashSet<>();
+        edges.add(new UndirectedEdge<>(0,1));
         edges.add(new UndirectedEdge<>(1,2));
         edges.add(new UndirectedEdge<>(2,3));
         edges.add(new UndirectedEdge<>(3,4));
-        edges.add(new UndirectedEdge<>(4,1));
+        edges.add(new UndirectedEdge<>(4,1));*/
 
-        undirected.removeNode(0);
-        directed.removeNode(0);
+        assertEquals(undirected.getNodes(), nodesWithoutNull);
+        assertEquals(undirected.getEdges(), undirectedEdgesWithoutNull);
+    }
 
-        assertEquals(undirected.getNodes(),nodes);
-        assertEquals(undirected.getEdges(),edges);
+    @Test
+    public void removeNodeTest(){
+        nodesWithoutNull.remove(zero);
 
-        assertEquals(directed.getNodes(),nodes);
-        assertEquals(directed.getEdges(),edges);
+        undirectedEdgesWithoutNull.remove(a);
+
+        undirected.removeNode(zero);
+
+        assertEquals(undirected.getNodes(),nodesWithoutNull);
+        assertEquals(undirected.getEdges(),undirectedEdgesWithoutNull);
 
         undirected.removeNode(5);
-        directed.removeNode(5);
 
-        assertEquals(undirected.getNodes(),nodes);
-        assertEquals(undirected.getEdges(),edges);
+        assertEquals(undirected.getNodes(),nodesWithoutNull);
+        assertEquals(undirected.getEdges(),undirectedEdgesWithoutNull);
 
-        assertEquals(directed.getNodes(),nodes);
-        assertEquals(directed.getEdges(),edges);
+        undirected.removeNode(null);
+
+
+        assertEquals(undirected.getNodes(),nodesWithoutNull);
+        assertEquals(undirected.getEdges(),undirectedEdgesWithoutNull);
+
+    }
+
+    @Test
+    public void removeEdgeTest(){
+        undirectedEdgesWithoutNull.remove(a);
+
+
+        undirected.removeEdge(a);
+
+        undirected.removeEdge(new UndirectedEdge<>(1,7));
+
+        undirected.removeEdge(new UndirectedEdge<>(7,2));
+
+        undirected.removeEdge(new UndirectedEdge<>(5,6));
+
+
+        assertEquals(undirected.getNodes(),nodesWithoutNull);
+        assertEquals(undirected.getEdges(),undirectedEdgesWithoutNull);
+
 
     }
 }

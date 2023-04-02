@@ -9,8 +9,8 @@ import java.util.*;
 
 public class DirectedGraph<T> extends AbstractGraph<T> {
 
-    public DirectedGraph (Set<T> nodes){
-        super(nodes);
+    public DirectedGraph (Set< Edge<T> > edges){
+        super(edges);
     }
 
     /**
@@ -21,7 +21,6 @@ public class DirectedGraph<T> extends AbstractGraph<T> {
      * @throws IllegalArgumentException if the set of edges contains an undirected edge.
      */
     public DirectedGraph(Set<T> nodes, Set< Edge<T>> edges) throws IllegalArgumentException{
-
         super(nodes,edges);
 
         if(edges.contains(UndirectedEdge.class)){

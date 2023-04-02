@@ -11,14 +11,29 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
     /**
      *
-     * @param nodes The {@link T} to construct the graph from using an adjacency list.
+     * @param edges The {@link Set} of {@link Edge} to construct the graph from.
      */
-    public AbstractGraph (Set<T> nodes){
+    public AbstractGraph (Set< Edge<T> > edges){
         this.adjacencyList = new HashMap<>();
 
-        nodes.forEach(node -> {
-            adjacencyList.put(node, new HashSet<>());
-        });
+        if(!edges.isEmpty()) {
+            edges.forEach(edge -> {
+                if(edge != null) {
+                    T node1 = edge.getNode1();
+                    T node2 = edge.getNode2();
+
+                    if (!this.adjacencyList.containsKey(node1)) {
+                        this.adjacencyList.put(node1, new HashSet<>());
+                    } else if (!this.adjacencyList.containsKey(node2)) {
+                        this.adjacencyList.put(node2, new HashSet<>());
+                    }
+
+                    Set<Edge<T>> edgeList = this.adjacencyList.get(node1);
+                    edgeList.add(edge);
+                    this.adjacencyList.put(node1, edgeList);
+                }
+            });
+        }
     }
 
     public AbstractGraph(Set<T> nodes, Set< Edge<T> > edges){
@@ -76,6 +91,10 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
     @Override
     public void addEdge(Edge<T> edge) {
+        if(edge == null){
+            adjacencyList.put(null,null);
+            return;
+        }
         if(this.adjacencyList.containsKey(edge.getNode1())){
             this.adjacencyList.get(edge.getNode1()).add(edge);
         }

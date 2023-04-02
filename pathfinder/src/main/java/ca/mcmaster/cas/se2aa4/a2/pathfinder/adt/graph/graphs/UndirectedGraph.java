@@ -13,10 +13,10 @@ public class UndirectedGraph<T> extends AbstractGraph<T> {
 
     /**
      *
-     * @param nodes Construct a new graph using the given {@link Set} of {@link T}.
+     * @param edges Construct a new graph using the given {@link Set} of {@link Edge}.
      */
-    public UndirectedGraph (Set<T> nodes){
-        super(nodes);
+    public UndirectedGraph (Set< Edge<T> > edges){
+        super(edges);
     }
 
     /**

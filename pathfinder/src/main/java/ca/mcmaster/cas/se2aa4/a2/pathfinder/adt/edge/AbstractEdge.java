@@ -28,7 +28,12 @@ public abstract class AbstractEdge<T> implements Edge<T> {
 
     @Override
     public boolean containsNode(T node) {
-        return node.equals(node1) || node.equals(node2);
+        if(node != null) {
+            return node.equals(node1) || node.equals(node2);
+        }
+        else{
+            return false;
+        }
     }
 
     @Override
