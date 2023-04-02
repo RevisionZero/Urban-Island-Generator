@@ -42,8 +42,8 @@ public class UndirectedGraph<T> extends AbstractGraph<T> {
 
     //Implementation of finding the shortest path between 2 nodes, if any, for an undirected graph
     @Override
-    public Optional<List<T>> findShortestPath(T source, T target) {
-        return Optional.empty();
+    public Map<T, T> findShortestPath(T source, T target) {
+        return null;
     }
 
 

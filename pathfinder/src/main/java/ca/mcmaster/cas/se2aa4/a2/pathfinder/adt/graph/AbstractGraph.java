@@ -53,11 +53,8 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
                     T node1 = edge.getNode1();
                     T node2 = edge.getNode2();
 
-                    if (!this.adjacencyList.containsKey(node1)) {
-                        this.adjacencyList.put(node1, new HashSet<>());
-                    } else if (!this.adjacencyList.containsKey(node2)) {
-                        this.adjacencyList.put(node2, new HashSet<>());
-                    }
+                    this.adjacencyList.putIfAbsent(node1, new HashSet<>());
+                    this.adjacencyList.putIfAbsent(node2, new HashSet<>());
 
                     Set<Edge<T>> edgeList = this.adjacencyList.get(node1);
                     edgeList.add(edge);
@@ -84,7 +81,7 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
     @Override
     public void addNode(T node){
-        if(!adjacencyList.containsKey(node)) {
+        if(!adjacencyList.containsKey(node) && node != null) {
             adjacencyList.put(node, new HashSet<>());
         }
     }
@@ -92,7 +89,6 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
     @Override
     public void addEdge(Edge<T> edge) {
         if(edge == null){
-            adjacencyList.put(null,null);
             return;
         }
         if(this.adjacencyList.containsKey(edge.getNode1())){
@@ -127,6 +123,21 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
     @Override
     public Set<T> getNodes(){
         return adjacencyList.keySet();
+    }
+
+    @Override
+    public Set< Edge<T> > getAllEdges(T node){
+        Set<Edge<T>> edges = new HashSet<>(this.adjacencyList.get(node));
+
+        this.adjacencyList.forEach((nodeKey, edgeList) -> {
+            edgeList.forEach(edge -> {
+                if(edge.containsNode(node)){
+                    edges.add(edge);
+                }
+            });
+        });
+
+        return edges;
     }
 
 }

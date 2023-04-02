@@ -44,4 +44,6 @@ public interface Graph<T> {
      */
     Set<T> getNodes();
 
+    Set< Edge<T> > getAllEdges(T node);
+
 }
