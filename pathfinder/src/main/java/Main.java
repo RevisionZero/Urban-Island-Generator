@@ -96,18 +96,6 @@ public class Main {
 
         });
 
-        System.out.println("Print edges:");
-
-        AbstractGraph<Integer> undirected = new UndirectedGraph<>(nodes,edges);
-
-        undirected.adjacencyList.forEach((node, edgeList) -> {
-            System.out.print(node+": ");
-            edgeList.forEach(edge -> {
-                System.out.print("("+edge.getNode1()+", "+edge.getNode2()+"); ");
-            });
-            System.out.println();
-        });
-
         /*System.out.print("Path: ");
 
         Pathfinder<Integer> graph = new DirectedGraph<>(nodes, edges);
