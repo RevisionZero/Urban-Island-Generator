@@ -7,7 +7,7 @@ import java.util.*;
 public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
     //An abstract graph class to define a graph of any type T, such as a graph of vertices, using an adjacency list.
 
-    protected Map<T, Set< Edge<T> > > adjacencyList;
+    public Map<T, Set< Edge<T> > > adjacencyList;
 
     /**
      *

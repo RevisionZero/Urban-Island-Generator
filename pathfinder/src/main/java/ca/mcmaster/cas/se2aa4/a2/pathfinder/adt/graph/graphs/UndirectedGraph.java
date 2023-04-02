@@ -10,7 +10,6 @@ import java.util.*;
 
 public class UndirectedGraph<T> extends AbstractGraph<T> {
 
-
     /**
      *
      * @param edges Construct a new graph using the given {@link Set} of {@link Edge}.
