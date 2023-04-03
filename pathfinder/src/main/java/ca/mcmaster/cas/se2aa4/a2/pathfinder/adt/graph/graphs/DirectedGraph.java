@@ -1,17 +1,37 @@
 package ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.graphs;
 
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.Edge;
-import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.DirectedEdge;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.UndirectedEdge;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.AbstractGraph;
 
-import java.sql.Array;
 import java.util.*;
 
 public class DirectedGraph<T> extends AbstractGraph<T> {
 
-    public DirectedGraph (Set< Edge<T> > edges){
-        super(edges);
+    public DirectedGraph (Set< Edge<T> > edges) throws IllegalArgumentException{
+        if(edges.contains(UndirectedEdge.class)){
+            throw new IllegalArgumentException("Undirected edges are not allowed in directed graphs!");
+        }
+        this.adjacencyList = new HashMap<>();
+
+        if(!edges.isEmpty()) {
+            edges.forEach(edge -> {
+                if(edge != null) {
+                    T node1 = edge.getNode1();
+                    T node2 = edge.getNode2();
+
+                    if (!this.adjacencyList.containsKey(node1)) {
+                        this.adjacencyList.put(node1, new HashSet<>());
+                    } else if (!this.adjacencyList.containsKey(node2)) {
+                        this.adjacencyList.put(node2, new HashSet<>());
+                    }
+
+                    Set<Edge<T>> edgeList = this.adjacencyList.get(node1);
+                    edgeList.add(edge);
+                    this.adjacencyList.put(node1, edgeList);
+                }
+            });
+        }
     }
 
     /**
@@ -21,85 +41,59 @@ public class DirectedGraph<T> extends AbstractGraph<T> {
      * @param edges The {@link Set} of {@link Edge} to add to the graph.
      * @throws IllegalArgumentException if the set of edges contains an undirected edge.
      */
-    public DirectedGraph(Set<T> nodes, Set< Edge<T>> edges) throws IllegalArgumentException{
-        super(nodes,edges);
-
+    public DirectedGraph(Set<T> nodes, Set< Edge<T> > edges) throws IllegalArgumentException{
         if(edges.contains(UndirectedEdge.class)){
-            throw new IllegalArgumentException("The set of edges contains an undirected edge!");
+            throw new IllegalArgumentException("Undirected edges are not allowed in directed graphs!");
         }
-    }
+        this.adjacencyList = new HashMap<>();
 
-    @Override
-    public Optional<List<T>> findPath(T source, T target) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Map<T, T> findShortestPath(T source, T target) {
-        Map<T, T> path = new HashMap<>();
-        Map<T, Double> cost = new HashMap<>();
-        this.adjacencyList.keySet().forEach(key -> {
-            cost.put(key, Double.MAX_VALUE);
-            path.put(key, null);
-        });
-        path.put(source, source);
-        cost.put(source, 0.0);
-
-
-
-        //Map<Double, T> queue = new HashMap<>();
-        //queue.put(0.0, source);
-
-        PriorityQueue<Tuple<T, Double>> q = new PriorityQueue<>(Comparator.comparingDouble(Tuple::e2));
-        q.add(new Tuple<>(source, 0d));
-
-
-        while(!q.isEmpty()){
-            //double lowestPriority = queue.keySet().stream().min(Double::compareTo).get();
-            //T node = queue.remove(lowestPriority);
-            Tuple<T, Double> tuple = q.remove();
-            T node = tuple.e1;
-
-            Set< Edge<T> > edges = this.adjacencyList.get(node);
-
-            edges.forEach(edge -> {
-                if(( cost.get(edge.getNode1()) + edge.getWeight()) < cost.get(edge.getNode2())){
-                    path.put(edge.getNode2(), edge.getNode1());
-                    cost.put(edge.getNode2(), (edge.getWeight() + cost.get(edge.getNode1())));
-                    //queue.put(cost.get(edge.getNode2()), edge.getNode2());
-                    q.add(new Tuple<>(edge.getNode2(), cost.get(edge.getNode2())));
+        if(!nodes.isEmpty()) {
+            nodes.forEach(node -> {
+                if(node != null) {
+                    this.adjacencyList.put(node, new HashSet<>());
                 }
             });
         }
 
-        /*List<T> finalPathReversed = new ArrayList<>();
+        if(!edges.isEmpty()) {
+            edges.forEach(edge -> {
+                if(edge != null) {
+                    T node1 = edge.getNode1();
+                    T node2 = edge.getNode2();
 
+                    this.adjacencyList.putIfAbsent(node1, new HashSet<>());
+                    this.adjacencyList.putIfAbsent(node2, new HashSet<>());
 
-        T node = target;
+                    Set<Edge<T>> edgeList = this.adjacencyList.get(node1);
+                    edgeList.add(edge);
+                    this.adjacencyList.put(node1, edgeList);
+                }
+            });
+        }
+    }
 
-        finalPathReversed.add(node);
+    @Override
+    public void addEdge(Edge<T> edge) {
+        if(edge == null){
+            return;
+        }
+        if(this.adjacencyList.containsKey(edge.getNode1())){
+            this.adjacencyList.get(edge.getNode1()).add(edge);
+        }
+        else{
+            this.adjacencyList.put(edge.getNode1(), new HashSet<>());
+            this.adjacencyList.get(edge.getNode1()).add(edge);
+        }
+    }
 
-        while (true){
-            node = path.get(node);
-            finalPathReversed.add(node);
-
-            if(node == source){
+    @Override
+    public void removeEdge(Edge<T> edge) {
+        for (Map.Entry<T, Set<Edge<T>>> entry : adjacencyList.entrySet()) {
+            if(entry.getKey() != null && !entry.getValue().isEmpty() && entry.getValue().contains(edge)){
+                entry.getValue().remove(edge);
                 break;
             }
         }
-
-        List<T> finalPath = new ArrayList<>();
-
-        for(int i = finalPathReversed.size()-1; i >= 0; i--){
-            finalPath.add(finalPathReversed.get(i));
-        }*/
-
-        return path;
     }
 
-    private record Tuple<D, E>(D e1, E e2) {
-        public static <F, G> Tuple<F, G> of(F e1, G e2) {
-            return new Tuple<>(e1, e2);
-        }
-    }
 }

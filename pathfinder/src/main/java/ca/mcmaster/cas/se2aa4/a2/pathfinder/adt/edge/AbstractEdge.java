@@ -61,4 +61,9 @@ public abstract class AbstractEdge<T> implements Edge<T> {
             throw new IllegalArgumentException("This edge is not weighted!");
         }
     }
+
+    @Override
+    public boolean equals(Edge<T> edge){
+        return this.node1.equals(edge.getNode1()) && this.node2.equals(edge.getNode2());
+    }
 }

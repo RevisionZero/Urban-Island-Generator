@@ -89,12 +89,38 @@ public class Main {
 
         Pathfinder<Integer> graph = new DirectedGraph<>(nodes, edges);
 
-        Map<Integer, Integer> answer = graph.findShortestPath(three,five);
+        Optional< List<Integer> > answer = graph.findShortestPath(2,7);
 
-        answer.keySet().forEach(key -> {
-            System.out.println("("+key+", "+answer.get(key)+")");
+        if(answer.isEmpty()){
+            System.out.println("null");
+        }
+        else {
+            answer.get().forEach(key -> {
+                System.out.print(key + ", ");
+            });
+        }
 
-        });
+        System.out.println("Graph:");
+
+        Set< Edge<Integer> > edges2 = new HashSet<>();
+
+        edges2.add(new UndirectedEdge<>(4,9));
+        edges2.add(new UndirectedEdge<>(1,3));
+        edges2.add(new UndirectedEdge<>(1,9));
+
+        Set<Integer> nodes2 = new HashSet<>();
+        nodes2.add(5);
+        nodes2.add(0);
+
+        /*UndirectedGraph<Integer> g = new UndirectedGraph<>(nodes2, edges2);
+
+        g.adjacencyList.forEach((node, edgeList) -> {
+            System.out.print(node+": ");
+            edgeList.forEach(edge -> {
+                System.out.print("("+edge.getNode1()+", "+edge.getNode2()+"); ");
+            });
+            System.out.println();
+        });*/
 
         /*System.out.print("Path: ");
 
@@ -105,6 +131,26 @@ public class Main {
         answer.forEach(node -> {
             System.out.print(node+", ");
         });*/
+
+
+        Edge<Integer> e1 = new UndirectedEdge<>(0,1);
+        Edge<Integer> e2 = new UndirectedEdge<>(0,5);
+        Set<Edge<Integer>> set = new HashSet<>();
+        set.add(e1);
+        set.add(e2);
+        UndirectedGraph<Integer> leGraph = new UndirectedGraph<>(set);
+        set.add(e1);
+        set.add(e2);
+        System.out.println("Before removal:");
+        set.forEach(edge -> {
+            System.out.print("("+edge.getNode1()+", "+edge.getNode2()+"); ");
+        });
+        leGraph.removeEdge(new UndirectedEdge<>(0,1));
+        System.out.println();
+        System.out.println("After removal:");
+        set.forEach(edge -> {
+            System.out.print("("+edge.getNode1()+", "+edge.getNode2()+"); ");
+        });
 
     }
 }

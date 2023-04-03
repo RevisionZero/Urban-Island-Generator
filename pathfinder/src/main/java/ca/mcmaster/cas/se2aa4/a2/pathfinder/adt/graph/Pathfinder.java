@@ -7,18 +7,10 @@ import java.util.Optional;
 public interface Pathfinder<T> {
 
     /**
-     * 
-     * @param source The source {@link T} of the desired path. 
-     * @param target The target {@link T} of the desired path.
-     * @return An {@link Optional} describing the path between source and target, if any.
-     */
-    Optional<List<T>> findPath(T source, T target);
-
-    /**
      *
      * @param source The source {@link T} of the desired path.
      * @param target The target {@link T} of the desired path.
      * @return An {@link Optional} describing the path between source {@link T} and target {@link T}, if any.
      */
-    Map<T, T> findShortestPath(T source, T target);
+    Optional< List<T> > findShortestPath(T source, T target);
 }

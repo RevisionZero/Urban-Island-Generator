@@ -6,6 +6,11 @@ import java.util.Optional;
 
 public class UndirectedEdge<T> extends AbstractEdge<T> {
 
+    public void setMirroredEdge(UndirectedEdge<T> mirroredEdge) {
+        this.mirroredEdge = mirroredEdge;
+    }
+
+    private UndirectedEdge<T> mirroredEdge;
     public UndirectedEdge(T node1, T node2, double weight) {
         super(node1, node2, weight);
     }
