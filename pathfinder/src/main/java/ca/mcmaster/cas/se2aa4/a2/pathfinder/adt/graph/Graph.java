@@ -28,13 +28,13 @@ public interface Graph<T> {
 
     /**
      *
-     * @param edge The {@link Edge} of type {@link T} to remove from the graph.
+     * @param edge The {@link Edge} to remove from the graph.
      */
     void removeEdge(Edge<T> edge);
 
     /**
      *
-     * @return The {@link Set} of {@link Edge} of type {@link T} describing the graph's adjacency list.
+     * @return The {@link Set} of {@link Edge} describing the graph's adjacency list.
      */
     Set< Edge<T> > getEdges();
 
@@ -44,10 +44,23 @@ public interface Graph<T> {
      */
     Set<T> getNodes();
 
+    /**
+     *
+     * @param node The node of type {@link T} to use.
+     * @return The {@link Set} of all {@link Edge} where the parameter node is a part of.
+     */
     Set< Edge<T> > getAllEdges(T node);
 
+    /**
+     *
+     * @return The string representation of the {@link Graph}.
+     */
     String showGraph();
 
+    /**
+     *
+     * @return {@code true} if the graph is weighted, else returns {@code false}
+     */
     boolean isWeighted();
 
 }

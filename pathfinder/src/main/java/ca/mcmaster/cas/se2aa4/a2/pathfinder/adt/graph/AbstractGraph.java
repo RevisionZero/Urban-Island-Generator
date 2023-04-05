@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph;
 
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.Edge;
+import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.util.Pair;
 
 import java.util.*;
 
@@ -67,9 +68,9 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
     }
 
     @Override
-    public Optional< List<T> > findShortestPath(T source, T target) {
+    public Optional< List<T> > findShortestPath(T source, T target) throws IllegalArgumentException{
         if(!this.adjacencyList.containsKey(source) || !this.adjacencyList.containsKey(target)){
-            return Optional.empty();
+            throw new IllegalArgumentException("Either the source or target node does not exist in the graph!");
         }
         Map<T, T> pathMap = new HashMap<>();
         Map<T, Double> cost = new HashMap<>();
@@ -86,7 +87,7 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
         while(!queue.isEmpty()){
             Pair<T, Double> tuple = queue.remove();
-            T node = tuple.node;
+            T node = tuple.getNode();
 
             Set< Edge<T> > edges = this.adjacencyList.get(node);
 
@@ -122,20 +123,6 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
         }
 
         return Optional.of(path);
-    }
-
-    private static class Pair<T, E> {
-        private final T node;
-        private final E priority;
-
-        public Pair(T node, E priority) {
-            this.node = node;
-            this.priority = priority;
-        }
-
-        public E getPriority() {
-            return this.priority;
-        }
     }
 
     @Override

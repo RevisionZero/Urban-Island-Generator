@@ -5,13 +5,37 @@ import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.DirectedEdge;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.UndirectedEdge;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.graphs.DirectedGraph;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.graphs.UndirectedGraph;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ShortestPathTest {
+
+    private static final PrintStream originalOut = System.out;
+    private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    private static final String[] input = new String[] {
+            "-in", "../generator/sample.mesh",
+            "-out", "island.mesh",
+            "", ""
+    };
+
+    @BeforeAll
+    public static void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @AfterAll
+    public static void restoreStreams() {
+        System.setOut(originalOut);
+    }
 
     @Test
     public void directedTest(){
@@ -46,11 +70,13 @@ public class ShortestPathTest {
         shortestPath = directedGraph.findShortestPath(3,4);
         assertEquals(shortestPath, Optional.empty());
 
-        shortestPath = directedGraph.findShortestPath(3,10);
-        assertEquals(shortestPath, Optional.empty());
+        assertThrows(Exception.class, () -> {
+            directedGraph.findShortestPath(3,10);
+            assertEquals("Either the source or target node does not exist in the graph!", outContent.toString());
 
-        shortestPath = directedGraph.findShortestPath(11,10);
-        assertEquals(shortestPath, Optional.empty());
+            directedGraph.findShortestPath(11,10);
+            assertEquals("Either the source or target node does not exist in the graph!", outContent.toString());
+        });
     }
 
     @Test
@@ -84,10 +110,12 @@ public class ShortestPathTest {
 
         assertEquals(shortestPath.get(), actualShortestPath);
 
-        shortestPath = undirectedGraph.findShortestPath(3,10);
-        assertEquals(shortestPath,Optional.empty());
+        assertThrows(Exception.class, () -> {
+            undirectedGraph.findShortestPath(3,10);
+            assertEquals("Either the source or target node does not exist in the graph!", outContent.toString());
 
-        shortestPath = undirectedGraph.findShortestPath(11,10);
-        assertEquals(shortestPath, Optional.empty());
+            undirectedGraph.findShortestPath(11,10);
+            assertEquals("Either the source or target node does not exist in the graph!", outContent.toString());
+        });
     }
 }

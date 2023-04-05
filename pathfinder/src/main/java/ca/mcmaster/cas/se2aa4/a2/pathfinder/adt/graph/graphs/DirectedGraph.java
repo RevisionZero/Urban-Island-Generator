@@ -1,13 +1,21 @@
 package ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.graphs;
 
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.Edge;
+import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.DirectedEdge;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.UndirectedEdge;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.AbstractGraph;
+import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.Graph;
 
 import java.util.*;
 
 public class DirectedGraph<T> extends AbstractGraph<T> {
 
+    /**
+     * Construct a new directed graph using the given {@link Set} of {@link Edge}.
+     * If the {@link Set} of {@link Edge} contains a weighted {@link Edge}, the {@link Graph} will be weighted.
+     * @param edges The {@link Set} of {@link Edge} to construct the graph from.
+     * @throws IllegalArgumentException If the {@link Set} of {@link Edge} contains an undirected {@link Edge}.
+     */
     public DirectedGraph (Set< Edge<T> > edges) throws IllegalArgumentException{
         if(edges.contains(UndirectedEdge.class)){
             throw new IllegalArgumentException("Undirected edges are not allowed in directed graphs!");
@@ -42,11 +50,12 @@ public class DirectedGraph<T> extends AbstractGraph<T> {
     }
 
     /**
-     *
+     * Construct a new directed graph using the given {@link Set} of nodes of type {@link T} and {@link Edge}.
+     * If the {@link Set} of {@link Edge} contains a weighted {@link Edge}, the {@link Graph} will be weighted.
      * If the {@link Set} of {@link Edge} contains nodes not in the {@link Set} of {@link T}, they will be added.
-     * @param nodes The {@link Set} of {@link T} nodes to use to create the graph.
+     * @param nodes The {@link Set} of nodes of type {@link T} used to create the graph.
      * @param edges The {@link Set} of {@link Edge} to add to the graph.
-     * @throws IllegalArgumentException if the set of edges contains an undirected edge.
+     * @throws IllegalArgumentException If the {@link Set} of {@link Edge} contains an undirected edge.
      */
     public DirectedGraph(Set<T> nodes, Set< Edge<T> > edges) throws IllegalArgumentException{
         if(edges.contains(UndirectedEdge.class)){
@@ -83,6 +92,10 @@ public class DirectedGraph<T> extends AbstractGraph<T> {
         }
     }
 
+    /**
+     * If the {@link Edge} type is {@link UndirectedEdge}, 2 {@link DirectedEdge} will be added to represent an {@link UndirectedEdge}.
+     * @param edge The {@link Edge} of type {@link T} to add to the graph.
+     */
     @Override
     public void addEdge(Edge<T> edge) {
         if(edge == null || edge.isWeighted() != isWeighted){
