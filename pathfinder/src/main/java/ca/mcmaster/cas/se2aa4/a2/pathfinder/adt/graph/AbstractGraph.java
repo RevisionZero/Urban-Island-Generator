@@ -68,6 +68,9 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
     @Override
     public Optional< List<T> > findShortestPath(T source, T target) {
+        if(!this.adjacencyList.containsKey(source) || !this.adjacencyList.containsKey(target)){
+            return Optional.empty();
+        }
         Map<T, T> pathMap = new HashMap<>();
         Map<T, Double> cost = new HashMap<>();
         this.adjacencyList.keySet().forEach(key -> {

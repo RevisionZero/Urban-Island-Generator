@@ -12,7 +12,7 @@ public class DirectedGraph<T> extends AbstractGraph<T> {
         if(edges.contains(UndirectedEdge.class)){
             throw new IllegalArgumentException("Undirected edges are not allowed in directed graphs!");
         }
-        if(edges.stream().anyMatch(edge -> edge.isWeighted())){
+        if(edges.stream().anyMatch(Edge::isWeighted)){
             this.isWeighted = true;
 
         }
@@ -52,7 +52,7 @@ public class DirectedGraph<T> extends AbstractGraph<T> {
         if(edges.contains(UndirectedEdge.class)){
             throw new IllegalArgumentException("Undirected edges are not allowed in directed graphs!");
         }
-        if(edges.stream().anyMatch(edge -> edge.isWeighted())){
+        if(edges.stream().anyMatch(Edge::isWeighted)){
             this.isWeighted = true;
 
         }

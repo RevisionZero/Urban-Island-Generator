@@ -10,37 +10,37 @@ public interface Graph<T> {
 
     /**
      *
-     * @param node The {@link T} to remove from the graph.
+     * @param node The node of type {@link T} to remove from the graph.
      */
     void removeNode(T node);
 
     /**
      *
-     * @param node The {@link T} to add to the graph.
+     * @param node The node of type {@link T} to add to the graph.
      */
     void addNode(T node);
 
     /**
      *
-     * @param edge The {@link Edge} to add to the graph.
+     * @param edge The {@link Edge} of type {@link T} to add to the graph.
      */
     void addEdge(Edge<T> edge);
 
     /**
      *
-     * @param edge The {@link Edge} to remove from the graph.
+     * @param edge The {@link Edge} of type {@link T} to remove from the graph.
      */
     void removeEdge(Edge<T> edge);
 
     /**
      *
-     * @return The {@link Set} of {@link Edge} describing the graph's adjacency list.
+     * @return The {@link Set} of {@link Edge} of type {@link T} describing the graph's adjacency list.
      */
     Set< Edge<T> > getEdges();
 
     /**
      *
-     * @return The {@link Set} of {@link T} of the graph's nodes.
+     * @return The {@link Set} of the graph's nodes of type {@link T}.
      */
     Set<T> getNodes();
 
