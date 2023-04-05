@@ -85,72 +85,119 @@ public class Main {
         edges.add(new DirectedEdge<>(9,0, 11));
 
 
-        System.out.println("Pathfinder:");
-
-        Pathfinder<Integer> graph = new DirectedGraph<>(nodes, edges);
-
-        Optional< List<Integer> > answer = graph.findShortestPath(2,7);
-
-        if(answer.isEmpty()){
-            System.out.println("null");
-        }
-        else {
-            answer.get().forEach(key -> {
-                System.out.print(key + ", ");
-            });
-        }
-
-        System.out.println("Graph:");
-
-        Set< Edge<Integer> > edges2 = new HashSet<>();
-
-        edges2.add(new UndirectedEdge<>(4,9));
-        edges2.add(new UndirectedEdge<>(1,3));
-        edges2.add(new UndirectedEdge<>(1,9));
+        DirectedGraph<Integer> directedGraph = new DirectedGraph<>(nodes, edges);
 
         Set<Integer> nodes2 = new HashSet<>();
-        nodes2.add(5);
         nodes2.add(0);
-
-        /*UndirectedGraph<Integer> g = new UndirectedGraph<>(nodes2, edges2);
-
-        g.adjacencyList.forEach((node, edgeList) -> {
-            System.out.print(node+": ");
-            edgeList.forEach(edge -> {
-                System.out.print("("+edge.getNode1()+", "+edge.getNode2()+"); ");
-            });
-            System.out.println();
-        });*/
-
-        /*System.out.print("Path: ");
-
-        Pathfinder<Integer> graph = new DirectedGraph<>(nodes, edges);
-
-        List<Integer> answer = graph.findShortestPath(3,5);
-
-        answer.forEach(node -> {
-            System.out.print(node+", ");
-        });*/
-
+        nodes2.add(1);
 
         Edge<Integer> e1 = new UndirectedEdge<>(0,1);
         Edge<Integer> e2 = new UndirectedEdge<>(0,5);
-        Set<Edge<Integer>> set = new HashSet<>();
-        set.add(e1);
-        set.add(e2);
-        UndirectedGraph<Integer> leGraph = new UndirectedGraph<>(set);
-        set.add(e1);
-        set.add(e2);
-        System.out.println("Before removal:");
-        set.forEach(edge -> {
-            System.out.print("("+edge.getNode1()+", "+edge.getNode2()+"); ");
-        });
-        leGraph.removeEdge(new UndirectedEdge<>(0,1));
-        System.out.println();
-        System.out.println("After removal:");
-        leGraph.adjacencyList.get(0).forEach(edge -> {
-            System.out.print("("+edge.getNode1()+", "+edge.getNode2()+"); ");
-        });
+        Set<Edge<Integer>> edges2 = new HashSet<>();
+        edges2.add(e1);
+        edges2.add(e2);
 
+        UndirectedGraph<Integer> undirectedGraph = new UndirectedGraph<>(edges2);
+
+        System.out.println("Directed Graph Test:\n");
+        System.out.println("Directed Graph:");
+        System.out.println(directedGraph.showGraph());
+        directedGraph.removeNode(9);
+        System.out.println("Removed node 9:");
+        System.out.println(directedGraph.showGraph());
+        directedGraph.removeEdge(new DirectedEdge<>(2,7));
+        System.out.println("Removed edge (2, 7):");
+        System.out.println(directedGraph.showGraph());
+        directedGraph.addEdge(new DirectedEdge<>(0,1));
+        System.out.println("Added unweighted edge (0, 1):");
+        System.out.println(directedGraph.showGraph());
+        directedGraph.addEdge(new DirectedEdge<>(0,1,8));
+        System.out.println("Added weighted edge (0, 1):");
+        System.out.println(directedGraph.showGraph());
+        directedGraph.addEdge(new UndirectedEdge<>(90,11, 88));
+        System.out.println("Added Undirected Weighted Edge (90, 11):");
+        System.out.println(directedGraph.showGraph());
+        directedGraph.addNode(11);
+        System.out.println("Added node 11:");
+        System.out.println(directedGraph.showGraph());
+        directedGraph = new DirectedGraph<>(edges);
+        System.out.println("RESET:\n");
+        System.out.println("Directed Graph:");
+        System.out.println(directedGraph.showGraph());
+        List<Integer> shortestPath = directedGraph.findShortestPath(8,0).get();
+        System.out.println("Shortest path between 8 and 0:");
+        shortestPath.forEach(node->{
+            System.out.print(node+", ");
+        });
+        System.out.println();
+        Optional<List<Integer>> shortestPath2 = directedGraph.findShortestPath(8,6);
+        System.out.println("Shortest path between 8 and 6:");
+        if(shortestPath2.isPresent()){
+            shortestPath2.get().forEach(node->{
+                System.out.print(node+", ");
+            });
+        }
+        else{
+            System.out.println("Doesn't exist");
+        }
+        System.out.println("\n\n\n\n");
+
+        System.out.println("Undirected Graph Test:\n");
+        System.out.println("Undirected Graph:");
+        System.out.println(undirectedGraph.showGraph());
+        undirectedGraph.removeNode(5);
+        System.out.println("Removed Node 5:");
+        System.out.println(undirectedGraph.showGraph());
+        undirectedGraph.removeEdge(new UndirectedEdge<>(1,0,9));
+        System.out.println("Removed Edge (0, 1):");
+        System.out.println(undirectedGraph.showGraph());
+        System.out.println("RESET:\n");
+        undirectedGraph = new UndirectedGraph<>(nodes2,edges2);
+        System.out.println("Undirected Graph:");
+        System.out.println(undirectedGraph.showGraph());
+        undirectedGraph.addEdge(new UndirectedEdge<>(6,9,9));
+        System.out.println("Added Weighted Edge (6, 9):");
+        System.out.println(undirectedGraph.showGraph());
+        undirectedGraph.addEdge(new UndirectedEdge<>(6,9));
+        System.out.println("Added Unweighted Edge (6, 9):");
+        System.out.println(undirectedGraph.showGraph());
+        undirectedGraph.addEdge(new DirectedEdge<>(72,9));
+        System.out.println("Added Directed Edge (72, 9):");
+        System.out.println(undirectedGraph.showGraph());
+        undirectedGraph.addNode(99);
+        System.out.println("Added Node 99:");
+        System.out.println(undirectedGraph.showGraph());
+        undirectedGraph = new UndirectedGraph<>(edges2);
+        System.out.println("RESET:\n");
+        System.out.println("Undirected Graph:");
+        System.out.println(undirectedGraph.showGraph());
+        Optional<List<Integer>> shortestPath3 = undirectedGraph.findShortestPath(0,1);
+        System.out.println("Shortest path between 0 and 1:");
+        if(shortestPath3.isPresent()){
+            shortestPath3.get().forEach(node->{
+                System.out.print(node+", ");
+            });
+        }
+        else{
+            System.out.println("Doesn't exist");
+        }
+        System.out.println();
+        shortestPath3 = undirectedGraph.findShortestPath(5,1);
+        System.out.println("Shortest path between 0 and 5:");
+        if(shortestPath3.isPresent()){
+            shortestPath3.get().forEach(node->{
+                System.out.print(node+", ");
+            });
+        }
+        else{
+            System.out.println("Doesn't exist");
+        }
+
+//        System.out.println("Undirected Graph Test:\n");
+//        System.out.println("Undirected Graph:");
+//        System.out.println(undirectedGraph.showGraph());
+//        undirectedGraph.removeEdge(new UndirectedEdge<>(0,1));
+//        System.out.println("Removed Edge (0, 1): ");
+//        System.out.println(undirectedGraph.showGraph());
     }
 }

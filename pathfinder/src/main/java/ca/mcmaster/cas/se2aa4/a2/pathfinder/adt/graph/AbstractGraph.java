@@ -7,7 +7,14 @@ import java.util.*;
 public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
     //An abstract graph class to define a graph of any type T, such as a graph of vertices, using an adjacency list.
 
-    public Map<T, Set< Edge<T> > > adjacencyList;
+    protected Map<T, Set< Edge<T> > > adjacencyList;
+
+    @Override
+    public boolean isWeighted() {
+        return isWeighted;
+    }
+
+    protected boolean isWeighted = false;
 
 
     @Override
@@ -16,11 +23,7 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
         adjacencyList.forEach((nodeKey, edgeList) -> {
             if(!edgeList.isEmpty()) {
-                edgeList.forEach(edge -> {
-                    if (edge != null && edge.containsNode(node)) {
-                        edgeList.remove(edge);
-                    }
-                });
+                edgeList.removeIf(edge -> edge.containsNode(node));
             }
         });
     }
@@ -28,7 +31,7 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
     @Override
     public void addNode(T node){
         if(!adjacencyList.containsKey(node) && node != null) {
-            adjacencyList.put(node, new HashSet<>());
+            adjacencyList.putIfAbsent(node, new HashSet<>());
         }
     }
 
@@ -74,12 +77,12 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
         pathMap.put(source, source);
         cost.put(source, 0.0);
 
-        PriorityQueue<Tuple<T, Double>> queue = new PriorityQueue<>(Comparator.comparingDouble(Tuple::getPriority));
-        queue.add(new Tuple<>(source, 0d));
+        PriorityQueue<Pair<T, Double>> queue = new PriorityQueue<>(Comparator.comparingDouble(Pair::getPriority));
+        queue.add(new Pair<>(source, 0d));
 
 
         while(!queue.isEmpty()){
-            Tuple<T, Double> tuple = queue.remove();
+            Pair<T, Double> tuple = queue.remove();
             T node = tuple.node;
 
             Set< Edge<T> > edges = this.adjacencyList.get(node);
@@ -88,7 +91,7 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
                 if(( cost.get(edge.getNode1()) + edge.getWeight()) < cost.get(edge.getNode2())){
                     pathMap.put(edge.getNode2(), edge.getNode1());
                     cost.put(edge.getNode2(), (edge.getWeight() + cost.get(edge.getNode1())));
-                    queue.add(new Tuple<>(edge.getNode2(), cost.get(edge.getNode2())));
+                    queue.add(new Pair<>(edge.getNode2(), cost.get(edge.getNode2())));
                 }
             });
         }
@@ -118,22 +121,38 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
         return Optional.of(path);
     }
 
-    private static class Tuple<T, E> {
+    private static class Pair<T, E> {
         private final T node;
         private final E priority;
 
-        public Tuple(T node, E priority) {
+        public Pair(T node, E priority) {
             this.node = node;
             this.priority = priority;
-        }
-
-        public T getNode() {
-            return this.node;
         }
 
         public E getPriority() {
             return this.priority;
         }
+    }
+
+    @Override
+    public String showGraph(){
+        List<String> graphRepresentaion = new ArrayList<>();
+
+        graphRepresentaion.add("");
+
+        this.adjacencyList.forEach((node, edgelist) -> {
+            graphRepresentaion.add(node+": ");
+            edgelist.forEach(edge -> {
+                graphRepresentaion.add("("+edge.getNode1()+" "+edge.getNode2()+")");
+                graphRepresentaion.add("  ");
+            });
+            graphRepresentaion.add("\n");
+        });
+
+        String[] tempArr = graphRepresentaion.toArray(graphRepresentaion.toArray(new String[0]));
+        String graphAsString = Arrays.toString(tempArr);
+        return graphAsString.replace("]", "").replace("[", "").replace(",","");
     }
 
 }

@@ -12,6 +12,13 @@ public class DirectedGraph<T> extends AbstractGraph<T> {
         if(edges.contains(UndirectedEdge.class)){
             throw new IllegalArgumentException("Undirected edges are not allowed in directed graphs!");
         }
+        if(edges.stream().anyMatch(edge -> edge.isWeighted())){
+            this.isWeighted = true;
+
+        }
+        else{
+            this.isWeighted = false;
+        }
         this.adjacencyList = new HashMap<>();
 
         if(!edges.isEmpty()) {
@@ -45,6 +52,10 @@ public class DirectedGraph<T> extends AbstractGraph<T> {
         if(edges.contains(UndirectedEdge.class)){
             throw new IllegalArgumentException("Undirected edges are not allowed in directed graphs!");
         }
+        if(edges.stream().anyMatch(edge -> edge.isWeighted())){
+            this.isWeighted = true;
+
+        }
         this.adjacencyList = new HashMap<>();
 
         if(!nodes.isEmpty()) {
@@ -74,26 +85,39 @@ public class DirectedGraph<T> extends AbstractGraph<T> {
 
     @Override
     public void addEdge(Edge<T> edge) {
-        if(edge == null){
+        if(edge == null || edge.isWeighted() != isWeighted){
             return;
         }
-        if(this.adjacencyList.containsKey(edge.getNode1())){
-            this.adjacencyList.get(edge.getNode1()).add(edge);
+        else if(edge.getClass() == UndirectedEdge.class){
+            if(this.adjacencyList.containsKey(edge.getNode1())){
+                this.adjacencyList.get(edge.getNode1()).add(edge);
+            }
+            else{
+                this.adjacencyList.put(edge.getNode1(), new HashSet<>());
+                this.adjacencyList.get(edge.getNode1()).add(edge);
+            }
+            if(this.adjacencyList.containsKey(edge.getNode2())){
+                this.adjacencyList.get(edge.getNode2()).add(new UndirectedEdge<>(edge.getNode2(), edge.getNode1()));
+            }
+            else{
+                this.adjacencyList.put(edge.getNode2(), new HashSet<>());
+                this.adjacencyList.get(edge.getNode2()).add(new UndirectedEdge<>(edge.getNode2(), edge.getNode1()));
+            }
         }
         else{
-            this.adjacencyList.put(edge.getNode1(), new HashSet<>());
-            this.adjacencyList.get(edge.getNode1()).add(edge);
+            if(this.adjacencyList.containsKey(edge.getNode1())){
+                this.adjacencyList.get(edge.getNode1()).add(edge);
+            }
+            else{
+                this.adjacencyList.put(edge.getNode1(), new HashSet<>());
+                this.adjacencyList.get(edge.getNode1()).add(edge);
+            }
         }
     }
 
     @Override
     public void removeEdge(Edge<T> edge) {
-        for (Map.Entry<T, Set<Edge<T>>> entry : adjacencyList.entrySet()) {
-            if(entry.getKey() != null && !entry.getValue().isEmpty() && entry.getValue().contains(edge)){
-                entry.getValue().remove(edge);
-                break;
-            }
-        }
+        this.adjacencyList.get(edge.getNode1()).remove(edge);
     }
 
 }

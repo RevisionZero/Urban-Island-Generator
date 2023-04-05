@@ -55,17 +55,7 @@ public abstract class AbstractEdge<T> implements Edge<T> {
 
     @Override
     public double getWeight(){
-        if(isWeighted){
-            return this.weight;
-        }
-        else{
-            throw new IllegalArgumentException("This edge is not weighted!");
-        }
-    }
-
-    @Override
-    public boolean equals(Edge<T> edge){
-        return this.node1.equals(edge.getNode1()) && this.node2.equals(edge.getNode2());
+        return this.weight;
     }
 
     @Override
@@ -73,11 +63,11 @@ public abstract class AbstractEdge<T> implements Edge<T> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractEdge<?> that = (AbstractEdge<?>) o;
-        return Double.compare(that.weight, weight) == 0 && isWeighted == that.isWeighted && Objects.equals(node1, that.node1) && Objects.equals(node2, that.node2);
+        return Objects.equals(node1, that.node1) && Objects.equals(node2, that.node2);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(weight, isWeighted, node1, node2);
+        return Objects.hash(node1, node2);
     }
 }

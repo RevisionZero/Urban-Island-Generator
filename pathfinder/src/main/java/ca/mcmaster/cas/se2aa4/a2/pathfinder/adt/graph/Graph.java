@@ -46,4 +46,8 @@ public interface Graph<T> {
 
     Set< Edge<T> > getAllEdges(T node);
 
+    String showGraph();
+
+    boolean isWeighted();
+
 }

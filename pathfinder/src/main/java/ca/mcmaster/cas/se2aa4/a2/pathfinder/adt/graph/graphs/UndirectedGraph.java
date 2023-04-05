@@ -18,6 +18,13 @@ public class UndirectedGraph<T> extends AbstractGraph<T> {
         if(edges.contains(DirectedEdge.class)){
             throw new IllegalArgumentException("Directed edges are not allowed in undirected graphs!");
         }
+        if(edges.stream().anyMatch(edge -> edge.isWeighted())){
+            this.isWeighted = true;
+
+        }
+        else{
+            this.isWeighted = false;
+        }
         this.adjacencyList = new HashMap<>();
 
         if(!edges.isEmpty()) {
@@ -52,6 +59,10 @@ public class UndirectedGraph<T> extends AbstractGraph<T> {
         if(edges.contains(DirectedEdge.class)){
             throw new IllegalArgumentException("Directed edges are not allowed in undirected graphs!");
         }
+        if(edges.stream().anyMatch(edge -> edge.isWeighted())){
+            this.isWeighted = true;
+
+        }
         this.adjacencyList = new HashMap<>();
 
         if(!nodes.isEmpty()) {
@@ -64,7 +75,6 @@ public class UndirectedGraph<T> extends AbstractGraph<T> {
 
         if(!edges.isEmpty()) {
             edges.forEach(edge -> {
-                //UndirectedEdge<T> edge = (UndirectedEdge<T>) edge;
                 if(edge != null) {
                     T node1 = edge.getNode1();
                     T node2 = edge.getNode2();
@@ -86,7 +96,7 @@ public class UndirectedGraph<T> extends AbstractGraph<T> {
 
     @Override
     public void addEdge(Edge<T> edge) {
-        if(edge == null){
+        if(edge == null || edge.isWeighted() != isWeighted || edge.getClass() == DirectedEdge.class){
             return;
         }
         if(this.adjacencyList.containsKey(edge.getNode1())){
@@ -107,7 +117,7 @@ public class UndirectedGraph<T> extends AbstractGraph<T> {
 
     @Override
     public void removeEdge(Edge<T> edge) {
-        Set<Edge<T>> edges = this.adjacencyList.get(edge.getNode1());
-        edges.remove(edge);
+        this.adjacencyList.get(edge.getNode1()).remove(edge);
+        this.adjacencyList.get(edge.getNode2()).remove(new UndirectedEdge<>(edge.getNode2(), edge.getNode1()));
     }
 }

@@ -24,6 +24,4 @@ public interface Edge<T> {
     boolean isWeighted();
 
     double getWeight() throws IllegalArgumentException;
-
-    boolean equals(Edge<T> edge);
 }
