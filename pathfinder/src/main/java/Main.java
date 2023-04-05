@@ -148,7 +148,7 @@ public class Main {
         leGraph.removeEdge(new UndirectedEdge<>(0,1));
         System.out.println();
         System.out.println("After removal:");
-        set.forEach(edge -> {
+        leGraph.adjacencyList.get(0).forEach(edge -> {
             System.out.print("("+edge.getNode1()+", "+edge.getNode2()+"); ");
         });
 

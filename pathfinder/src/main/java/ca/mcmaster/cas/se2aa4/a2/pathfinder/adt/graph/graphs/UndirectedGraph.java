@@ -107,16 +107,7 @@ public class UndirectedGraph<T> extends AbstractGraph<T> {
 
     @Override
     public void removeEdge(Edge<T> edge) {
-        for (Map.Entry<T, Set<Edge<T>>> entry : adjacencyList.entrySet()) {
-            if(entry.getKey() != null && !entry.getValue().isEmpty()){
-                entry.getValue().forEach(listEdge -> {
-                    if(edge.equals(listEdge)){
-                        System.out.println(entry.getValue().remove(edge));
-                    }
-                });
-            }
-        }
+        Set<Edge<T>> edges = this.adjacencyList.get(edge.getNode1());
+        edges.remove(edge);
     }
-
-
 }
