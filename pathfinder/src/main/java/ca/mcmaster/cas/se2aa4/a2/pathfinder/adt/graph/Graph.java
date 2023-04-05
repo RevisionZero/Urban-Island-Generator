@@ -10,19 +10,19 @@ public interface Graph<T> {
 
     /**
      *
-     * @param node The {@link T} to remove from the graph.
+     * @param node The node of type {@link T} to remove from the graph.
      */
     void removeNode(T node);
 
     /**
      *
-     * @param node The {@link T} to add to the graph.
+     * @param node The node of type {@link T} to add to the graph.
      */
     void addNode(T node);
 
     /**
      *
-     * @param edge The {@link Edge} to add to the graph.
+     * @param edge The {@link Edge} of type {@link T} to add to the graph.
      */
     void addEdge(Edge<T> edge);
 
@@ -40,10 +40,27 @@ public interface Graph<T> {
 
     /**
      *
-     * @return The {@link Set} of {@link T} of the graph's nodes.
+     * @return The {@link Set} of the graph's nodes of type {@link T}.
      */
     Set<T> getNodes();
 
+    /**
+     *
+     * @param node The node of type {@link T} to use.
+     * @return The {@link Set} of all {@link Edge} where the parameter node is a part of.
+     */
     Set< Edge<T> > getAllEdges(T node);
+
+    /**
+     *
+     * @return The string representation of the {@link Graph}.
+     */
+    String showGraph();
+
+    /**
+     *
+     * @return {@code true} if the graph is weighted, else returns {@code false}
+     */
+    boolean isWeighted();
 
 }

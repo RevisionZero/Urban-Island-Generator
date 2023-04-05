@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph;
 
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.Edge;
+import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.util.Pair;
 
 import java.util.*;
 
@@ -9,60 +10,13 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
     protected Map<T, Set< Edge<T> > > adjacencyList;
 
-    /**
-     *
-     * @param edges The {@link Set} of {@link Edge} to construct the graph from.
-     */
-    public AbstractGraph (Set< Edge<T> > edges){
-        this.adjacencyList = new HashMap<>();
-
-        if(!edges.isEmpty()) {
-            edges.forEach(edge -> {
-                if(edge != null) {
-                    T node1 = edge.getNode1();
-                    T node2 = edge.getNode2();
-
-                    if (!this.adjacencyList.containsKey(node1)) {
-                        this.adjacencyList.put(node1, new HashSet<>());
-                    } else if (!this.adjacencyList.containsKey(node2)) {
-                        this.adjacencyList.put(node2, new HashSet<>());
-                    }
-
-                    Set<Edge<T>> edgeList = this.adjacencyList.get(node1);
-                    edgeList.add(edge);
-                    this.adjacencyList.put(node1, edgeList);
-                }
-            });
-        }
+    @Override
+    public boolean isWeighted() {
+        return isWeighted;
     }
 
-    public AbstractGraph(Set<T> nodes, Set< Edge<T> > edges){
-        this.adjacencyList = new HashMap<>();
+    protected boolean isWeighted = false;
 
-        if(!nodes.isEmpty()) {
-            nodes.forEach(node -> {
-                if(node != null) {
-                    this.adjacencyList.put(node, new HashSet<>());
-                }
-            });
-        }
-
-        if(!edges.isEmpty()) {
-            edges.forEach(edge -> {
-                if(edge != null) {
-                    T node1 = edge.getNode1();
-                    T node2 = edge.getNode2();
-
-                    this.adjacencyList.putIfAbsent(node1, new HashSet<>());
-                    this.adjacencyList.putIfAbsent(node2, new HashSet<>());
-
-                    Set<Edge<T>> edgeList = this.adjacencyList.get(node1);
-                    edgeList.add(edge);
-                    this.adjacencyList.put(node1, edgeList);
-                }
-            });
-        }
-    }
 
     @Override
     public void removeNode(T node) {
@@ -70,11 +24,7 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
         adjacencyList.forEach((nodeKey, edgeList) -> {
             if(!edgeList.isEmpty()) {
-                edgeList.forEach(edge -> {
-                    if (edge != null && edge.containsNode(node)) {
-                        edgeList.remove(edge);
-                    }
-                });
+                edgeList.removeIf(edge -> edge.containsNode(node));
             }
         });
     }
@@ -82,30 +32,7 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
     @Override
     public void addNode(T node){
         if(!adjacencyList.containsKey(node) && node != null) {
-            adjacencyList.put(node, new HashSet<>());
-        }
-    }
-
-    @Override
-    public void addEdge(Edge<T> edge) {
-        if(edge == null){
-            return;
-        }
-        if(this.adjacencyList.containsKey(edge.getNode1())){
-            this.adjacencyList.get(edge.getNode1()).add(edge);
-        }
-        else{
-            this.adjacencyList.put(edge.getNode1(), new HashSet<>());
-        }
-    }
-
-    @Override
-    public void removeEdge(Edge<T> edge) {
-        for (Map.Entry<T, Set<Edge<T>>> entry : adjacencyList.entrySet()) {
-            if(entry.getKey() != null && !entry.getValue().isEmpty() && entry.getValue().contains(edge)){
-                entry.getValue().remove(edge);
-                break;
-            }
+            adjacencyList.putIfAbsent(node, new HashSet<>());
         }
     }
 
@@ -138,6 +65,84 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
         });
 
         return edges;
+    }
+
+    @Override
+    public Optional< List<T> > findShortestPath(T source, T target) throws IllegalArgumentException{
+        if(!this.adjacencyList.containsKey(source) || !this.adjacencyList.containsKey(target)){
+            throw new IllegalArgumentException("Either the source or target node does not exist in the graph!");
+        }
+        Map<T, T> pathMap = new HashMap<>();
+        Map<T, Double> cost = new HashMap<>();
+        this.adjacencyList.keySet().forEach(key -> {
+            cost.put(key, Double.POSITIVE_INFINITY);
+            pathMap.put(key, null);
+        });
+        pathMap.put(source, source);
+        cost.put(source, 0.0);
+
+        PriorityQueue<Pair<T, Double>> queue = new PriorityQueue<>(Comparator.comparingDouble(Pair::getPriority));
+        queue.add(new Pair<>(source, 0d));
+
+
+        while(!queue.isEmpty()){
+            Pair<T, Double> tuple = queue.remove();
+            T node = tuple.getNode();
+
+            Set< Edge<T> > edges = this.adjacencyList.get(node);
+
+            edges.forEach(edge -> {
+                if(( cost.get(edge.getNode1()) + edge.getWeight()) < cost.get(edge.getNode2())){
+                    pathMap.put(edge.getNode2(), edge.getNode1());
+                    cost.put(edge.getNode2(), (edge.getWeight() + cost.get(edge.getNode1())));
+                    queue.add(new Pair<>(edge.getNode2(), cost.get(edge.getNode2())));
+                }
+            });
+        }
+
+        List<T> pathReversed = new ArrayList<>();
+
+
+        T node = target;
+
+        pathReversed.add(node);
+
+        do {
+            if (node == null) {
+                return Optional.empty();
+            }
+            node = pathMap.get(node);
+            pathReversed.add(node);
+
+        } while (node != source);
+
+        List<T> path = new ArrayList<>();
+
+        for(int i = pathReversed.size()-1; i >= 0; i--){
+            path.add(pathReversed.get(i));
+        }
+
+        return Optional.of(path);
+    }
+
+    @Override
+    public String showGraph(){
+        List<String> graphRepresentaion = new ArrayList<>();
+
+        graphRepresentaion.add("");
+
+        this.adjacencyList.forEach((node, edgelist) -> {
+            graphRepresentaion.add(node+": ");
+            edgelist.forEach(edge -> {
+                graphRepresentaion.add("("+edge.getNode1()+" "+edge.getNode2()+")");
+                graphRepresentaion.add("  ");
+            });
+            graphRepresentaion.add("\n");
+        });
+
+        String[] tempArr = graphRepresentaion.toArray(graphRepresentaion.toArray(new String[0]));
+        String graphAsString = Arrays.toString(tempArr);
+        return graphAsString.replace("]", "").replace("[", "").replace(",","");
     }
 
 }
