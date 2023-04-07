@@ -3,6 +3,8 @@ package ca.mcmaster.cas.se2aa4.a2.island.settlement;
 import ca.mcmaster.cas.se2aa4.a2.island.settlement.settlements.City;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
+import java.awt.*;
+
 public abstract class AbstractSettlement implements Settlement{
 
     private final Vertex location;
@@ -26,6 +28,7 @@ public abstract class AbstractSettlement implements Settlement{
         this.size = size;
         this.type = this.getClass().toString().replace("class ", "");
         this.location.setThickness(size);
+        this.location.setColor(new Color(130,130,130));
     }
 
 

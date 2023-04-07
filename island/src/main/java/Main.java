@@ -6,6 +6,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.humidity.soil.SoilAbsorptionProfile;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshReader;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshWriter;
 import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
+import ca.mcmaster.cas.se2aa4.a2.island.settlement.generator.SettlementGenerator;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 
@@ -25,6 +26,9 @@ public class Main {
 
             IslandGenerator generator = IslandInputHandler.getIslandMode(handler, mesh);
             generator.generate();
+
+            SettlementGenerator settlementGenerator = new SettlementGenerator(mesh.getConverted(), generator.getSeed(), generator.getLand());
+            settlementGenerator.generateSettlements(50);
 
             Hook heatMap = IslandInputHandler.getHook(handler);
             heatMap.apply(mesh.getTiles());

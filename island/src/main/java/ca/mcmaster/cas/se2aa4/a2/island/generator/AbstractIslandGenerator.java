@@ -28,6 +28,10 @@ public abstract class AbstractIslandGenerator implements IslandGenerator {
     private final AltimeterProfile altimeterProfile;
     protected final IslandMesh mesh;
 
+    public Land getLand(){
+        return this.land;
+    }
+
     protected AbstractIslandGenerator(
             IslandMesh mesh,
             Shape shape,

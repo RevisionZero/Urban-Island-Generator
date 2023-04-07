@@ -6,7 +6,7 @@ import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 public class City extends AbstractSettlement {
 
 
-    protected City(Vertex location, float size) {
+    public City(Vertex location, float size) {
         super(location, size);
     }
 }
