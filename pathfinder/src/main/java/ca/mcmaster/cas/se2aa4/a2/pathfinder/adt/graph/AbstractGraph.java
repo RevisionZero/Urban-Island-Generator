@@ -2,7 +2,7 @@ package ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph;
 
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.Edge;
 import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.util.Pair;
-import ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.Graph;
+import ca.mcmaster.cas.se2aa4.a2.pathfinder.pathfinder.Pathfinder;
 
 import java.util.*;
 

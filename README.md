@@ -1,12 +1,8 @@
-# Assignment A2: Mesh Generator
+# Assignment A4: Urbanism
 
-  - Omar Shehada [shehadao@mcmaster.ca]
-  - Abdallah Alqashqish [alqashqa@mcmaster.ca]
-  - Beshoy Hezky [hezkyb@mcmaster.ca]
+- Omar Shehada [shehadao@mcmaster.ca]
 
 ## How to run the product
-
-_This section needs to be edited to reflect how the user can interact with thefeature released in your project_
 
 ### Installation instructions
 
@@ -18,7 +14,7 @@ To install the different tooling on your computer, simply run:
 mosser@azrael A2 % mvn install
 ```
 
-After installation, you'll find an application named `generator.jar` in the `generator` directory, and a file named `visualizer.jar` in the `visualizer` one. 
+After installation, you'll find an application named `generator.jar` in the `generator` directory, a file named `visualizer.jar` in the `visualizer` one, and a file named `island.jar` in the `island` one.
 
 ### Generator
 
@@ -96,8 +92,24 @@ mosser@azrael visualizer %
 ```
 To viualize the SVG file:
 
-  - Open it with a web browser
-  - Convert it into something else with tool slike `rsvg-convert`
+- Open it with a web browser
+- Convert it into something else with tool slike `rsvg-convert`
+
+### Pathfinder
+
+The `pathfinder` package includes a graph ADT and a pathfinding algorithm to find the shortest path between 2 nodes. You can represent any graph problem using this package.
+
+Pthfinder features include:
+1. Edge<T>: An edge created through 2 nodes of any type T.
+   -There are 2 implementations of edges: directed and undirected, and both can be weighted/unweighted.
+2. Graph<T>: A graph that contains nodes and edges of any type T.
+   -There are 2 implementations of graphs: directed and undirected, and both can be weighted/unweighted.
+   NOTE: one cannot use directed edges to construct an undirected graph and vice versa.
+3. Pathfinder<T>: An interface which makes the classes the implement it specify a shortest path algorithm.
+   -The AbstractGraph<T> class implements Dijkstra's algorithm to find the shortest path between any 2 nodes,
+   which can be used on directed and undirected graphs(negative edges excluded).
+
+Full developer documentation is included to show what each method and constructor does.
 
 ## How to contribute to the project
 
@@ -110,31 +122,3 @@ When you develop features and enrich the product, remember that you have first t
 1. Works as expected per feature outline and requirements
 2. No bugs and unexpected behaviour
 3. Smooth program execution
-
-
-### Product Backlog
-
-- | Id | Feature title                        | Who?          | Start     |     End   |   Status  |
-- | 01 |Creating a mesh ADT (fix generator)   |Abdallah,Beshoy| 8-2-2023  | 16-2-2023 |  Complete |
-- | 02 |Producing full meshes                 |Omar           | 8-2-2023  | 16-2-2023 |  Complete |
-- | 03 |Playing with rendering                |Beshoy         | 16-2-2023 | 16-2-2023 |  Complete |
-- | 04 |Visualization mode                    |Omar           | 16-2-2023 | 17-2-2023 |  Complete |
-- | 05 |Mesh configuration                    |Abdallah,Beshoy| 19-2-2023 | 21-2-2023 |  Complete |
-- | 04 |Irregular mesh generation             |Omar & Beshoy  | 22-2-2023 | 25-2-2023 |  Complete |
-- | 05 |Tile System                           |Abdallah&Beshoy| 01-3-2023 | 03-3-2023 |  Complete |
-- | 06 |Lagoon Tile                           |Abdallah&Beshoy| 03-3-2023 | 04-3-2023 |  Complete |
-- | 07 |Beach Tile                            |Abdallah&Beshoy| 03-3-2023 | 04-3-2023 |  Complete |
-- | 08 |Ocean Tile                            |Abdallah&Beshoy| 03-3-2023 | 04-3-2023 |  Complete |
-- | 09 |Land Tile                             |Abdallah&Beshoy| 03-3-2023 | 04-3-2023 |  Complete |
-- | 10 |Input Handling                        |Omar           | 01-3-2023 | 03-3-2023 |  Complete |
-- | 11 |Lagoon Island Generation              |Abdallah&Beshoy| 01-3-2023 | 03-3-2023 |  Complete |
-- | 12 |Island Shape Generation               |Abdallah&Beshoy| 03-3-2023 | 10-3-2023 |  Complete |
-- | 13 |Island Lake Generation                |Abdallah&Beshoy| 03-3-2023 | 14-3-2023 |  Complete |
-- | 14 |Island Elevation Generation           |Abdallah       | 03-3-2023 | 12-3-2023 |  Complete |
-- | 15 |Island Aquifer Generation             |Abdallah&Beshoy| 16-3-2023 | 20-3-2023 |  Complete |
-- | 16 |Island River Generation               |Abdallah&Omar  | 20-3-2023 | 25-3-2023 |  Complete |
-- | 17 |Island Humidity Generation            |Abdallah&Omar  | 20-3-2023 | 26-3-2023 |  Complete |
-- | 18 |Island Soil Absorption                |Abdallah&Omar  | 23-3-2023 | 26-3-2023 |  Complete |
-- | 19 |Island Seeded Generation              |Abdallah&Beshoy| 23-3-2023 | 26-3-2023 |  Complete |
-- | 20 |Island Biomes and Whittaker Diagrams  |Abdallah&Omar  | 26-3-2023 | 26-3-2023 |  Complete |
-- | 21 |Island moisture and elevation heatmaps|Omar           | 26-3-2023 | 26-3-2023 |  Complete |

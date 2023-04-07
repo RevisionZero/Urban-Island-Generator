@@ -1,0 +1,76 @@
+@startuml
+abstract class ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.AbstractEdge {
+# double weight
+# boolean isWeighted
+# T node1
+# T node2
++ boolean containsNode(T)
++ T getNode1()
++ T getNode2()
++ boolean isWeighted()
++ double getWeight()
++ boolean equals(Object)
++ int hashCode()
+}
+class ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.graphs.DirectedGraph {
++ void addEdge(Edge<T>)
++ void removeEdge(Edge<T>)
+}
+class ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.graphs.UndirectedGraph {
++ void addEdge(Edge<T>)
++ void removeEdge(Edge<T>)
+}
+interface ca.mcmaster.cas.se2aa4.a2.pathfinder.pathfinder.Pathfinder {
+~ Optional<List<T>> findShortestPath(T,T)
+}
+interface ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.Edge {
+~ boolean containsNode(T)
+~ T getNode1()
+~ T getNode2()
+~ boolean isWeighted()
+~ double getWeight()
+}
+class ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.UndirectedEdge {
++ boolean equals(Object)
+}
+class ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.util.Pair {
+- T node
+- E priority
++ T getNode()
++ E getPriority()
+}
+abstract class ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.AbstractGraph {
+# Map<T,Set<Edge<T>>> adjacencyList
+# boolean isWeighted
++ boolean isWeighted()
++ void removeNode(T)
++ void addNode(T)
++ Set<Edge<T>> getEdges()
++ Set<T> getNodes()
++ Set<Edge<T>> getAllEdges(T)
++ Optional<List<T>> findShortestPath(T,T)
++ String showGraph()
+}
+interface ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.Graph {
+~ void removeNode(T)
+~ void addNode(T)
+~ void addEdge(Edge<T>)
+~ void removeEdge(Edge<T>)
+~ Set<Edge<T>> getEdges()
+~ Set<T> getNodes()
+~ Set<Edge<T>> getAllEdges(T)
+~ String showGraph()
+~ boolean isWeighted()
+}
+class ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.DirectedEdge {
+}
+
+
+ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.Edge <|.. ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.AbstractEdge
+ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.AbstractGraph <|-- ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.graphs.DirectedGraph
+ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.AbstractGraph <|-- ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.graphs.UndirectedGraph
+ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.AbstractEdge <|-- ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.UndirectedEdge
+ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.Graph <|.. ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.AbstractGraph
+ca.mcmaster.cas.se2aa4.a2.pathfinder.pathfinder.Pathfinder <|.. ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.graph.AbstractGraph
+ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.AbstractEdge <|-- ca.mcmaster.cas.se2aa4.a2.pathfinder.adt.edge.edges.DirectedEdge
+@enduml
