@@ -6,17 +6,19 @@ import ca.mcmaster.cas.se2aa4.a2.island.io.MeshReader;
 import ca.mcmaster.cas.se2aa4.a2.island.io.MeshWriter;
 import ca.mcmaster.cas.se2aa4.a2.island.mesh.IslandMesh;
 import ca.mcmaster.cas.se2aa4.a2.island.settlement.generator.SettlementGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.settlement.roads.LandGraph;
+import ca.mcmaster.cas.se2aa4.a2.mesh.adt.segment.Segment;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.InputHandler;
 import ca.mcmaster.cas.se2aa4.a2.mesh.cli.exceptions.IllegalInputException;
 
+import java.awt.*;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         try {
             InputHandler handler = IslandInputHandler.getInputHandler(args);
-
-            int numSettlements = IslandInputHandler.getNumSettlements(handler);
 
             String input = IslandInputHandler.getInputMesh(handler);
             String output = IslandInputHandler.getOutputFile(handler);
@@ -28,8 +30,15 @@ public class Main {
             IslandGenerator generator = IslandInputHandler.getIslandMode(handler, mesh);
             generator.generate();
 
+            int numSettlements = IslandInputHandler.getNumSettlements(handler);
             SettlementGenerator settlementGenerator = new SettlementGenerator(mesh.getConverted(), generator.getSeed(), generator.getLand());
             settlementGenerator.generateSettlements(numSettlements);
+
+            LandGraph landGraph = new LandGraph(mesh.getConverted(), generator.getLand());
+            List<Segment> path = landGraph.findShortestPath(settlementGenerator.getSettlements().get(1).getLocation(), settlementGenerator.getSettlements().get(0).getLocation()).get();
+            path.forEach(segment -> {
+                segment.setColor(new Color(255,0,0));
+            });
 
             Hook heatMap = IslandInputHandler.getHook(handler);
             heatMap.apply(mesh.getTiles());

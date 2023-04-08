@@ -20,6 +20,11 @@ public class SettlementGenerator {
     private Random rand;
     private Mesh mesh;
     private Land land;
+    private List<Settlement> settlements;
+
+    public List<Settlement> getSettlements(){
+        return this.settlements;
+    }
 
     public SettlementGenerator(Mesh mesh, long seed, Land land){
         this.mesh = mesh;
@@ -28,6 +33,7 @@ public class SettlementGenerator {
             vertex.setColor(new Color(0,0,0,0));
         });
         this.land = land;
+        this.settlements = new ArrayList<>();
     }
 
     public void generateSettlements(int numLocations){
@@ -39,15 +45,18 @@ public class SettlementGenerator {
 
             if(chosenSettlement == 0){
                 settlementSize = rand.nextFloat(15,20);
-                new City(location, settlementSize, new Color(130, 130, 130));
+                City city = new City(location, settlementSize, new Color(130, 130, 130));
+                settlements.add(city);
             }
             else if (chosenSettlement == 1) {
                 settlementSize = rand.nextFloat(10,15);
-                new Town(location, settlementSize, new Color(255,0,0));
+                Town town = new Town(location, settlementSize, new Color(255,0,0));
+                settlements.add(town);
             }
             else{
                 settlementSize = rand.nextFloat(5,10);
-                new Village(location, settlementSize, new Color(92,49,3));
+                Village village = new Village(location, settlementSize, new Color(92,49,3));
+                settlements.add(village);
             }
         });
     }
