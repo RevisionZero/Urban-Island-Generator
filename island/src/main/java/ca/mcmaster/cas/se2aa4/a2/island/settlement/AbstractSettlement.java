@@ -14,6 +14,10 @@ public abstract class AbstractSettlement implements Settlement{
     protected final String type;
 
     @Override
+    public String getType() {
+        return type;
+    }
+    @Override
     public Vertex getLocation(){
         return this.location;
     }
@@ -23,12 +27,15 @@ public abstract class AbstractSettlement implements Settlement{
         return size;
     }
 
-    protected AbstractSettlement(Vertex location, float size, Color settlementColor){
+    /**
+     *
+     * @param location The {@link Vertex} to use as a location for the {@link Settlement}.
+     * @param size The {@link Float} representing the radius of the {@link Vertex} representing the {@link Settlement}.
+     */
+    protected AbstractSettlement(Vertex location, float size){
         this.location = location;
         this.size = size;
         this.type = this.getClass().toString().replace("class ", "");
-        this.location.setThickness(size);
-        this.location.setColor(settlementColor);
     }
 
 

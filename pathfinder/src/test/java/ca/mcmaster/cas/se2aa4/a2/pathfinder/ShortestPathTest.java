@@ -72,10 +72,10 @@ public class ShortestPathTest {
 
         assertThrows(Exception.class, () -> {
             directedGraph.findShortestPath(3,10);
-            assertEquals("Either the source or target node does not exist in the graph!", outContent.toString());
+            assertEquals("The target node does not exist in the graph!", outContent.toString());
 
             directedGraph.findShortestPath(11,10);
-            assertEquals("Either the source or target node does not exist in the graph!", outContent.toString());
+            assertEquals("The source node does not exist in the graph!", outContent.toString());
         });
     }
 
