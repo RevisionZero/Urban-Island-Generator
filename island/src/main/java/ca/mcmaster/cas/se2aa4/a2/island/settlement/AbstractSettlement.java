@@ -23,12 +23,12 @@ public abstract class AbstractSettlement implements Settlement{
         return size;
     }
 
-    protected AbstractSettlement(Vertex location, float size){
+    protected AbstractSettlement(Vertex location, float size, Color settlementColor){
         this.location = location;
         this.size = size;
         this.type = this.getClass().toString().replace("class ", "");
         this.location.setThickness(size);
-        this.location.setColor(new Color(130,130,130));
+        this.location.setColor(settlementColor);
     }
 
 

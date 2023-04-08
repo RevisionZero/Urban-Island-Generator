@@ -35,16 +35,19 @@ public class SettlementGenerator {
 
         settlementLocations.forEach(location -> {
             int chosenSettlement = rand.nextInt(3);
-            float settlementSize = rand.nextFloat(9,11);
+            float settlementSize;
 
             if(chosenSettlement == 0){
-                new City(location, settlementSize);
+                settlementSize = rand.nextFloat(15,20);
+                new City(location, settlementSize, new Color(130, 130, 130));
             }
             else if (chosenSettlement == 1) {
-                new Town(location, settlementSize);
+                settlementSize = rand.nextFloat(10,15);
+                new Town(location, settlementSize, new Color(255,0,0));
             }
             else{
-                new Village(location, settlementSize);
+                settlementSize = rand.nextFloat(5,10);
+                new Village(location, settlementSize, new Color(92,49,3));
             }
         });
     }

@@ -47,7 +47,8 @@ public class IslandInputHandler {
             Map.entry(SeedOption.OPTION_STR, new SeedOption()),
             Map.entry(SoilAbsorptionProfileOption.OPTION_STR, new SoilAbsorptionProfileOption()),
             Map.entry(BiomeOption.OPTION_STR, new BiomeOption()),
-            Map.entry(HookOption.OPTION_STR, new HookOption())
+            Map.entry(HookOption.OPTION_STR, new HookOption()),
+            Map.entry(SettlementNumberOption.OPTION_STR, new SettlementNumberOption())
     );
 
     /**
@@ -379,5 +380,14 @@ public class IslandInputHandler {
         }
 
         return hook;
+    }
+
+    public static int getNumSettlements(InputHandler handler) throws IllegalInputException{
+        String value = handler.getOptionValue(
+                IslandInputHandler.getIslandOption(SettlementNumberOption.OPTION_STR),
+                SettlementNumberOption.DEFAULT_VALUE
+        );
+
+        return Integer.parseInt(value);
     }
 }
