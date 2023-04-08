@@ -14,6 +14,10 @@ public abstract class AbstractSettlement implements Settlement{
     protected final String type;
 
     @Override
+    public String getType() {
+        return type;
+    }
+    @Override
     public Vertex getLocation(){
         return this.location;
     }

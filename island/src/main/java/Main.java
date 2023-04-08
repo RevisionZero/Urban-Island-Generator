@@ -34,12 +34,6 @@ public class Main {
             SettlementGenerator settlementGenerator = new SettlementGenerator(mesh.getConverted(), generator.getSeed(), generator.getLand());
             settlementGenerator.generateSettlements(numSettlements);
 
-            LandGraph landGraph = new LandGraph(mesh.getConverted(), generator.getLand());
-            List<Segment> path = landGraph.findShortestPath(settlementGenerator.getSettlements().get(1).getLocation(), settlementGenerator.getSettlements().get(0).getLocation()).get();
-            path.forEach(segment -> {
-                segment.setColor(new Color(255,0,0));
-            });
-
             Hook heatMap = IslandInputHandler.getHook(handler);
             heatMap.apply(mesh.getTiles());
 

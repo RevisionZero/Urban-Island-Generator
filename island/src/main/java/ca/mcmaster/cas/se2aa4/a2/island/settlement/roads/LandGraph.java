@@ -38,18 +38,14 @@ public class LandGraph {
         List<River> rivers = land.getRivers();
 
         land.getPaths().forEach(path -> {
-            rivers.forEach(river -> {
-                if(!river.getRiverPath().contains(path)){
-                    Segment segment = path.getSegment();
-                    segments.add(segment);
-                    vertices.add(segment.getV1());
-                    vertices.add(segment.getV2());
-                    edges.add(new UndirectedEdge<>(segment.getV1(), segment.getV2(), path.getElevation()));
-                }
-            });
+            Segment segment = path.getSegment();
+            segments.add(segment);
+            vertices.add(segment.getV1());
+            vertices.add(segment.getV2());
+            edges.add(new UndirectedEdge<>(segment.getV1(), segment.getV2(), path.getElevation()));
         });
 
-        graph = new UndirectedGraph<>(edges);
+        graph = new UndirectedGraph<>(vertices, edges);
     }
 
     public Optional<List<Segment>> findShortestPath(Vertex v1, Vertex v2){

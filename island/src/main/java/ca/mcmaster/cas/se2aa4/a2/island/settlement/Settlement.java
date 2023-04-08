@@ -7,4 +7,6 @@ public interface Settlement {
     float getSize();
 
     Vertex getLocation();
+
+    String getType();
 }

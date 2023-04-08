@@ -70,8 +70,11 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
     @Override
     public Optional< List<T> > findShortestPath(T source, T target) throws IllegalArgumentException{
-        if(!this.adjacencyList.containsKey(source) || !this.adjacencyList.containsKey(target)){
-            throw new IllegalArgumentException("Either the source or target node does not exist in the graph!");
+        if(!this.adjacencyList.containsKey(source)){
+            throw new IllegalArgumentException("The source node does not exist in the graph!");
+        }
+        else if(!this.adjacencyList.containsKey(target)){
+            throw new IllegalArgumentException("The target node does not exist in the graph!");
         }
         Map<T, T> pathMap = new HashMap<>();
         Map<T, Double> cost = new HashMap<>();
