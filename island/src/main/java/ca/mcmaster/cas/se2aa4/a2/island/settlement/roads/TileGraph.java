@@ -44,7 +44,7 @@ public class TileGraph {
                 this.mesh.addSegment(segment);
                 segments.add(segment);
                 double weight = (tile.getElevation() + neighbor.getElevation()) / 2;
-                edges.add(new UndirectedEdge<>(tile.getPolygon().getCentroid(), neighbor.getPolygon().getCentroid()));
+                edges.add(new UndirectedEdge<>(tile.getPolygon().getCentroid(), neighbor.getPolygon().getCentroid(), weight));
             });
         });
         this.mesh.getVertices().forEach(vertex -> {

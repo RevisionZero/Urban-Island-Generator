@@ -20,7 +20,7 @@ public class StarNetworkGenerator implements NetworkGenerator {
      * @param mesh The {@link Mesh} to write the network to.
      * @param settlements The {@link List} of {@link Settlement}s to connect.
      * @param tiles The {@link Set} of {@link Tile}s representing the tiles that can be used to draw connections.
-     * @param centralSettlement The central {@link Settlement}.
+     * @param centralCity The central {@link Settlement}.
      */
     @Override
     public void createNetwork(Mesh mesh, List<Settlement> settlements, Set<Tile> tiles, Settlement centralCity) {
