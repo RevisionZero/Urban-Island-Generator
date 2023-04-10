@@ -29,7 +29,6 @@ public class Main {
             int numSettlements = IslandInputHandler.getNumSettlements(handler);
             CountryGenerator.generateCountry(mesh.getConverted(), generator.getSeed(), generator.getLand(), numSettlements);
 
-
             Hook heatMap = IslandInputHandler.getHook(handler);
             heatMap.apply(mesh.getTiles());
 

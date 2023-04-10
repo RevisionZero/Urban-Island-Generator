@@ -16,9 +16,11 @@ public interface Settlement {
      */
     Vertex getLocation();
 
+    
     /**
      *
      * @return The {@link String} representation of the type of the {@link Settlement}.
      */
+
     String getType();
 }
