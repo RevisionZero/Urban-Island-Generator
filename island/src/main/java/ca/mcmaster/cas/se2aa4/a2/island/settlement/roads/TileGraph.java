@@ -31,7 +31,7 @@ public class TileGraph {
     }
 
     /**
-     * Constructs a new undirected graph connecting all the centroids of the given {@link Set} of {@link Tile}.
+     * Constructs a new undirected, unweighted graph connecting all the centroids of the given {@link Set} of {@link Tile}.
      * Each newly constructed {@link Segment} and its {@link Vertex} are added as invisible {@link Segment} and {@link Vertex} to the {@link Mesh}.
      * @param mesh The {@link Mesh} of the {@link Set} of {@link Tile}.
      * @param land The {@link Set} of {@link Tile} to use to construct the undirected graph.
@@ -56,14 +56,32 @@ public class TileGraph {
         graph = new UndirectedGraph<>(verticesNodes, segmentEdges);
     }
 
+    /**
+     * Runs Dijkstra's algorithm on the given source node of type {@link Vertex}.
+     * @param source The source {@link Vertex} to run Dijskstra's algorithm on.
+     * @return A {@link Map} of {@link Vertex} to {@link Vertex}.
+     * @throws IllegalArgumentException When the source {@link Vertex} doesn't exist in the graph.
+     */
     public Map<Vertex, Vertex> tileGraphDijkstra(Vertex source) throws IllegalArgumentException{
         return this.graph.dijkstra(source);
     }
 
+    /**
+     *
+     * @param pathMap The {@link Map} of {@link Vertex} to {@link Vertex} returned by a call to Dijkstra's algorithm.
+     * @param source The source {@link Vertex}.
+     * @param target The target {@link Vertex}.
+     * @return An {@link Optional} containing the {@link List} of {@link Vertex} that describe the path.
+     * @throws IllegalArgumentException If the source or target {@link Vertex} doesn't exist.
+     */
     public Optional<List<Vertex>> tileGraphExtractPath(Map<Vertex, Vertex> pathMap, Vertex source, Vertex target) throws IllegalArgumentException{
         return this.graph.extractPath(pathMap, source, target);
     }
 
+    /**
+     * Connects each {@link Vertex} to its successor to create a {@link Segment} then draws it to create a path.
+     * @param shortestPath The {@link List} of {@link Vertex} to connect and draw.
+     */
     public void drawRoad(List<Vertex> shortestPath){
 
         for(int i = 0; i < shortestPath.size()-1; i++){

@@ -16,6 +16,12 @@ IslandGenerator -> IslandGenerator: generateRivers()
 IslandGenerator -> IslandGenerator: generateHumidity()
 IslandGenerator -> IslandGenerator: biomeHandling()
 IslandGenerator --> Main
+Main -> Main: getNumSettlements()
+activate CountryGenerator
+Main -> CountryGenerator: generateCountry()
+CountryGenerator -> CountryGenerator: createSettlements()
+CountryGenerator -> CountryGenerator: createNetwork()
+CountryGenerator --> Main
 activate MeshWriter
 Main -> MeshWriter: MeshWriter.getMesh()
 MeshWriter --> Main

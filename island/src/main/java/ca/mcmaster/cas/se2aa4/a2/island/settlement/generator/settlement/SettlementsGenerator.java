@@ -9,11 +9,23 @@ import java.util.Set;
 
 public interface SettlementsGenerator {
 
+    /**
+     *
+     * @param numLocations The number of {@link Settlement}s to create.
+     */
     void createSettlements(int numLocations);
 
-
+    /**
+     *
+     * @param numLocations The number of {@link Settlement}s to get the locations to.
+     * @return A {@link Set} of {@link Vertex} describing the locations of the {@link Settlement}s.
+     */
     Set<Vertex> getSettlementLocations(int numLocations);
 
+    /**
+     *
+     * @return The {@link List} of {@link Settlement}s created.
+     */
     List<Settlement> getSettlements();
 
     Settlement getCentralSettlement();
