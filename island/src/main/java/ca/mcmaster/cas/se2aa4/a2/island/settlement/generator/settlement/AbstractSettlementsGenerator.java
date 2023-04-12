@@ -1,9 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.settlement.generator.settlement;
 
-import ca.mcmaster.cas.se2aa4.a2.island.geography.Land;
 import ca.mcmaster.cas.se2aa4.a2.island.settlement.Settlement;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
@@ -15,7 +13,7 @@ public abstract class AbstractSettlementsGenerator implements SettlementsGenerat
     protected Mesh mesh;
     protected List<Vertex> landTileCentroids;
     protected List<Settlement> settlements;
-    protected Settlement centralCity;
+    protected Settlement centralSettlement;
 
     public AbstractSettlementsGenerator(Mesh mesh, long seed, Set<Tile> tiles){
         this.mesh = mesh;
@@ -42,7 +40,7 @@ public abstract class AbstractSettlementsGenerator implements SettlementsGenerat
      */
     @Override
     public Settlement getCentralSettlement() {
-        return this.centralCity;
+        return this.centralSettlement;
     }
 
 }

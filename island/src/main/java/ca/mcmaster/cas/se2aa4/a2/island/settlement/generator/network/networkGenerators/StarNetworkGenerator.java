@@ -23,6 +23,9 @@ public class StarNetworkGenerator implements NetworkGenerator {
      */
     @Override
     public void createNetwork(Mesh mesh, List<Settlement> settlements, TileGraph tileGraph, Settlement centralCity) {
+        if(centralCity == null){
+            return;
+        }
         Vertex centralVertex = centralCity.getLocation();
         centralVertex.setColor(new Color(255,0,0));
 
@@ -32,7 +35,6 @@ public class StarNetworkGenerator implements NetworkGenerator {
             Optional<List<Vertex>> roadPath = tileGraph.tileGraphExtractPath(dijkstra, centralVertex, settlement.getLocation());
             roadPath.ifPresent(tileGraph::drawRoad);
         });
-
 
     }
 

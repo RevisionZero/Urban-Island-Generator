@@ -8,7 +8,7 @@ public class SettlementNumberOption extends Option {
 
     public static final String OPTION_STR = "settlements";
     private static final String DESCRIPTION = "What number of settlements(cities, towns, villages) do you want?";
-    public static final String DEFAULT_VALUE = "5";
+    public static final String DEFAULT_VALUE = "0";
 
     public SettlementNumberOption() {
         super("set", OPTION_STR, true, DESCRIPTION);

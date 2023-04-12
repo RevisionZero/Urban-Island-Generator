@@ -7,13 +7,11 @@ import ca.mcmaster.cas.se2aa4.a2.island.settlement.settlements.City;
 import ca.mcmaster.cas.se2aa4.a2.island.settlement.settlements.Town;
 import ca.mcmaster.cas.se2aa4.a2.island.settlement.settlements.Village;
 import ca.mcmaster.cas.se2aa4.a2.island.tile.Tile;
-import ca.mcmaster.cas.se2aa4.a2.island.tile.type.TileGroup;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.vertex.Vertex;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 public class RandomSettlementsGenerator extends AbstractSettlementsGenerator {
 
@@ -33,6 +31,9 @@ public class RandomSettlementsGenerator extends AbstractSettlementsGenerator {
      */
     @Override
     public void createSettlements(int numLocations) {
+        if(numLocations == 0){
+            return;
+        }
         Set<Vertex> settlementLocations = getSettlementLocations(numLocations);
 
         settlementLocations.forEach(location -> {
@@ -62,9 +63,9 @@ public class RandomSettlementsGenerator extends AbstractSettlementsGenerator {
             }
         });
 
-        this.centralCity = settlements.stream().max(Comparator.comparing(Settlement::getSize)).get();
-        this.centralCity.getLocation().setColor(new Color(255,0,0));
-        this.centralCity.getLocation().setThickness(this.centralCity.getSize());
+        this.centralSettlement = settlements.stream().max(Comparator.comparing(Settlement::getSize)).get();
+        this.centralSettlement.getLocation().setColor(new Color(255,0,0));
+        this.centralSettlement.getLocation().setThickness(this.centralSettlement.getSize());
     }
 
 
