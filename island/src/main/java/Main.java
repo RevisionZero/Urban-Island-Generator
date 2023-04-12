@@ -14,6 +14,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         try {
+            long start = System.currentTimeMillis();
             InputHandler handler = IslandInputHandler.getInputHandler(args);
 
             String input = IslandInputHandler.getInputMesh(handler);
@@ -34,6 +35,9 @@ public class Main {
 
             MeshWriter writer = new MeshWriter();
             writer.write(mesh.getConverted(), output);
+            long end = System.currentTimeMillis();
+            System.out.printf("Time: %d\n", (end-start));
+
 
             System.out.printf("Island Seed: %d\n", generator.getSeed());
         } catch(IllegalInputException e) {

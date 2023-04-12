@@ -7,6 +7,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.settlement.generator.network.NetworkGene
 import ca.mcmaster.cas.se2aa4.a2.island.settlement.generator.network.networkGenerators.StarNetworkGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.settlement.generator.settlement.SettlementsGenerator;
 import ca.mcmaster.cas.se2aa4.a2.island.settlement.generator.settlement.settlementsGenerators.RandomSettlementsGenerator;
+import ca.mcmaster.cas.se2aa4.a2.island.settlement.roads.TileGraph;
 import ca.mcmaster.cas.se2aa4.a2.mesh.adt.mesh.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.island.settlement.Settlement;
 
@@ -21,13 +22,16 @@ public class CountryGenerator {
      */
     public static void generateCountry(Mesh mesh, long seed, Land land, int numLocations){
 
-        SettlementsGenerator settlementsGenerator = new RandomSettlementsGenerator(mesh, seed, land);
+        TileGraph landTilesGraph = new TileGraph(mesh, land);
+
+        SettlementsGenerator settlementsGenerator = new RandomSettlementsGenerator(mesh, seed, landTilesGraph.getLandTiles());
 
         settlementsGenerator.createSettlements(numLocations);
 
         NetworkGenerator networkGenerator = new StarNetworkGenerator();
-        networkGenerator.createNetwork(mesh, settlementsGenerator.getSettlements(), settlementsGenerator.getLandTiles(), settlementsGenerator.getCentralSettlement());
 
-        settlementsGenerator.renderSettlements();
+        networkGenerator.createNetwork(mesh, settlementsGenerator.getSettlements(), landTilesGraph, settlementsGenerator.getCentralSettlement());
+
+
     }
 }
