@@ -11,12 +11,12 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
 
     protected Map<T, Set< Edge<T> > > adjacencyList;
 
+    protected boolean isWeighted = false;
+
     @Override
     public boolean isWeighted() {
         return isWeighted;
     }
-
-    protected boolean isWeighted = false;
 
 
     @Override
@@ -76,6 +76,16 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
         else if(!this.adjacencyList.containsKey(target)){
             throw new IllegalArgumentException("The target node does not exist in the graph!");
         }
+
+        Map<T,T> dijkstrasMap = dijkstra(source);
+        return extractPath(dijkstrasMap, source, target);
+    }
+
+    public Map<T,T> dijkstra(T source) throws IllegalArgumentException {
+        if(!this.adjacencyList.containsKey(source)){
+            throw new IllegalArgumentException("The source node does not exist in the graph!");
+        }
+
         Map<T, T> pathMap = new HashMap<>();
         Map<T, Double> cost = new HashMap<>();
         this.adjacencyList.keySet().forEach(key -> {
@@ -104,9 +114,14 @@ public abstract class AbstractGraph<T> implements Graph<T>, Pathfinder<T> {
             });
         }
 
+        return pathMap;
+    }
+
+    public Optional<List<T>> extractPath(Map<T, T> pathMap, T source, T target) throws IllegalArgumentException{
+        if(!this.adjacencyList.containsKey(target)){
+            throw new IllegalArgumentException("The target node does not exist in the graph!");
+        }
         List<T> pathReversed = new ArrayList<>();
-
-
         T node = target;
 
         pathReversed.add(node);
