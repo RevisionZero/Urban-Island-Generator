@@ -58,6 +58,7 @@ Island Generator options include:
 11. -sed, --seed <seed>                               The seed of the island to generate. Generator will generate a random one if none are given.
 12. -b, --biomes <biomes>                             The biomes of the island to generate. Options are `tropical` and `temperate`. Generator will generate a `tropical` island if none is given.
 13. -H, --hook  <hook>                                Sets the hook to run after the generation of the island. Current options are `moisture` and `elevation`.
+14. -set, --settlements <settlements number>          Sets the numbeer of `settlements` to be generated.
 ```
 mosser@azrael A2 % cd island 
 mosser@azrael island % java -jar island.jar -i ../generator/sample.mesh -o island.mesh -m lagoon
