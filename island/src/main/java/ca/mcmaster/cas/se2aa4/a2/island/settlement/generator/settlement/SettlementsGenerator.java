@@ -11,7 +11,6 @@ public interface SettlementsGenerator {
 
     void createSettlements(int numLocations);
 
-    void renderSettlements();
 
     Set<Vertex> getSettlementLocations(int numLocations);
 
@@ -19,5 +18,4 @@ public interface SettlementsGenerator {
 
     Settlement getCentralSettlement();
 
-    Set<Tile> getLandTiles();
 }
